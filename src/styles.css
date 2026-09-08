@@ -1,9 +1,44 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Baloo 2", "Nunito", system-ui, sans-serif;
+  --font-sans: "Nunito", system-ui, -apple-system, sans-serif;
+
+  /* Brand */
+  --color-ink: #0f2c5c;
+  --color-ink-soft: #5b6b8c;
+  --color-canvas: #f5f8fd;
+  --color-surface: #ffffff;
+  --color-line: #e5ecf6;
+
+  /* Track + semantic accents */
+  --color-language: #1d4ed8;
+  --color-language-soft: #e8effc;
+  --color-culture: #e0447a;
+  --color-culture-soft: #fdeaf1;
+  --color-grow: #1f7a4d;
+  --color-grow-soft: #e5f4ec;
+  --color-sun: #f0a020;
+  --color-sun-soft: #fdf1dd;
+  --color-dream: #7c4dcc;
+  --color-dream-soft: #f1eafc;
+
+  --radius-card: 1.25rem;
+  --shadow-soft: 0 6px 20px -8px rgb(15 44 92 / 0.18);
 }
 
 body {
-  font-family: system-ui, -apple-system, sans-serif;
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+@keyframes nk-pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgb(29 78 216 / 0.45); }
+  70% { box-shadow: 0 0 0 16px rgb(29 78 216 / 0); }
+  100% { box-shadow: 0 0 0 0 rgb(29 78 216 / 0); }
+}
+
+@utility pulse-ring {
+  animation: nk-pulse-ring 2s ease-out infinite;
 }
