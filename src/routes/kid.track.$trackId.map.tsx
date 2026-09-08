@@ -141,7 +141,7 @@ function TrailMap() {
                   )}
                 </button>
 
-                <span className={n.side === "left" ? "order-3" : ""} />
+
               </li>
             ))}
           </ol>
