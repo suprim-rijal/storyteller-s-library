@@ -10,14 +10,26 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as KidTreasuresRouteImport } from './routes/kid.treasures'
 import { Route as KidTracksRouteImport } from './routes/kid.tracks'
+import { Route as KidPracticeRouteImport } from './routes/kid.practice'
+import { Route as KidMeRouteImport } from './routes/kid.me'
 import { Route as KidHomeRouteImport } from './routes/kid.home'
+import { Route as KidClassRouteImport } from './routes/kid.class'
+import { Route as AdultDashboardRouteImport } from './routes/adult.dashboard'
+import { Route as KidLessonLessonIdRouteImport } from './routes/kid.lesson.$lessonId'
 import { Route as Char91__mockupChar93PreviewSplatRouteImport } from './routes/[__mockup].preview.$'
 import { Route as Char91__componentChar93PreviewSplatRouteImport } from './routes/[__component].preview.$'
+import { Route as KidTrackTrackIdMapRouteImport } from './routes/kid.track.$trackId.map'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KidTreasuresRoute = KidTreasuresRouteImport.update({
+  id: '/kid/treasures',
+  path: '/kid/treasures',
   getParentRoute: () => rootRouteImport,
 } as any)
 const KidTracksRoute = KidTracksRouteImport.update({
@@ -25,9 +37,34 @@ const KidTracksRoute = KidTracksRouteImport.update({
   path: '/kid/tracks',
   getParentRoute: () => rootRouteImport,
 } as any)
+const KidPracticeRoute = KidPracticeRouteImport.update({
+  id: '/kid/practice',
+  path: '/kid/practice',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KidMeRoute = KidMeRouteImport.update({
+  id: '/kid/me',
+  path: '/kid/me',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const KidHomeRoute = KidHomeRouteImport.update({
   id: '/kid/home',
   path: '/kid/home',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KidClassRoute = KidClassRouteImport.update({
+  id: '/kid/class',
+  path: '/kid/class',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdultDashboardRoute = AdultDashboardRouteImport.update({
+  id: '/adult/dashboard',
+  path: '/adult/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KidLessonLessonIdRoute = KidLessonLessonIdRouteImport.update({
+  id: '/kid/lesson/$lessonId',
+  path: '/kid/lesson/$lessonId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const Char91__mockupChar93PreviewSplatRoute =
@@ -42,59 +79,113 @@ const Char91__componentChar93PreviewSplatRoute =
     path: '/__component/preview/$',
     getParentRoute: () => rootRouteImport,
   } as any)
+const KidTrackTrackIdMapRoute = KidTrackTrackIdMapRouteImport.update({
+  id: '/kid/track/$trackId/map',
+  path: '/kid/track/$trackId/map',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/adult/dashboard': typeof AdultDashboardRoute
+  '/kid/class': typeof KidClassRoute
   '/kid/home': typeof KidHomeRoute
+  '/kid/me': typeof KidMeRoute
+  '/kid/practice': typeof KidPracticeRoute
   '/kid/tracks': typeof KidTracksRoute
+  '/kid/treasures': typeof KidTreasuresRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
+  '/kid/lesson/$lessonId': typeof KidLessonLessonIdRoute
+  '/kid/track/$trackId/map': typeof KidTrackTrackIdMapRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/adult/dashboard': typeof AdultDashboardRoute
+  '/kid/class': typeof KidClassRoute
   '/kid/home': typeof KidHomeRoute
+  '/kid/me': typeof KidMeRoute
+  '/kid/practice': typeof KidPracticeRoute
   '/kid/tracks': typeof KidTracksRoute
+  '/kid/treasures': typeof KidTreasuresRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
+  '/kid/lesson/$lessonId': typeof KidLessonLessonIdRoute
+  '/kid/track/$trackId/map': typeof KidTrackTrackIdMapRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/adult/dashboard': typeof AdultDashboardRoute
+  '/kid/class': typeof KidClassRoute
   '/kid/home': typeof KidHomeRoute
+  '/kid/me': typeof KidMeRoute
+  '/kid/practice': typeof KidPracticeRoute
   '/kid/tracks': typeof KidTracksRoute
+  '/kid/treasures': typeof KidTreasuresRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
+  '/kid/lesson/$lessonId': typeof KidLessonLessonIdRoute
+  '/kid/track/$trackId/map': typeof KidTrackTrackIdMapRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/adult/dashboard'
+    | '/kid/class'
     | '/kid/home'
+    | '/kid/me'
+    | '/kid/practice'
     | '/kid/tracks'
+    | '/kid/treasures'
     | '/__component/preview/$'
     | '/__mockup/preview/$'
+    | '/kid/lesson/$lessonId'
+    | '/kid/track/$trackId/map'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/adult/dashboard'
+    | '/kid/class'
     | '/kid/home'
+    | '/kid/me'
+    | '/kid/practice'
     | '/kid/tracks'
+    | '/kid/treasures'
     | '/__component/preview/$'
     | '/__mockup/preview/$'
+    | '/kid/lesson/$lessonId'
+    | '/kid/track/$trackId/map'
   id:
     | '__root__'
     | '/'
+    | '/adult/dashboard'
+    | '/kid/class'
     | '/kid/home'
+    | '/kid/me'
+    | '/kid/practice'
     | '/kid/tracks'
+    | '/kid/treasures'
     | '/__component/preview/$'
     | '/__mockup/preview/$'
+    | '/kid/lesson/$lessonId'
+    | '/kid/track/$trackId/map'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdultDashboardRoute: typeof AdultDashboardRoute
+  KidClassRoute: typeof KidClassRoute
   KidHomeRoute: typeof KidHomeRoute
+  KidMeRoute: typeof KidMeRoute
+  KidPracticeRoute: typeof KidPracticeRoute
   KidTracksRoute: typeof KidTracksRoute
+  KidTreasuresRoute: typeof KidTreasuresRoute
   Char91__componentChar93PreviewSplatRoute: typeof Char91__componentChar93PreviewSplatRoute
   Char91__mockupChar93PreviewSplatRoute: typeof Char91__mockupChar93PreviewSplatRoute
+  KidLessonLessonIdRoute: typeof KidLessonLessonIdRoute
+  KidTrackTrackIdMapRoute: typeof KidTrackTrackIdMapRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -106,6 +197,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/kid/treasures': {
+      id: '/kid/treasures'
+      path: '/kid/treasures'
+      fullPath: '/kid/treasures'
+      preLoaderRoute: typeof KidTreasuresRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/kid/tracks': {
       id: '/kid/tracks'
       path: '/kid/tracks'
@@ -113,11 +211,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof KidTracksRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/kid/practice': {
+      id: '/kid/practice'
+      path: '/kid/practice'
+      fullPath: '/kid/practice'
+      preLoaderRoute: typeof KidPracticeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kid/me': {
+      id: '/kid/me'
+      path: '/kid/me'
+      fullPath: '/kid/me'
+      preLoaderRoute: typeof KidMeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/kid/home': {
       id: '/kid/home'
       path: '/kid/home'
       fullPath: '/kid/home'
       preLoaderRoute: typeof KidHomeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kid/class': {
+      id: '/kid/class'
+      path: '/kid/class'
+      fullPath: '/kid/class'
+      preLoaderRoute: typeof KidClassRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/adult/dashboard': {
+      id: '/adult/dashboard'
+      path: '/adult/dashboard'
+      fullPath: '/adult/dashboard'
+      preLoaderRoute: typeof AdultDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kid/lesson/$lessonId': {
+      id: '/kid/lesson/$lessonId'
+      path: '/kid/lesson/$lessonId'
+      fullPath: '/kid/lesson/$lessonId'
+      preLoaderRoute: typeof KidLessonLessonIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/__mockup/preview/$': {
@@ -134,16 +267,30 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char91__componentChar93PreviewSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/kid/track/$trackId/map': {
+      id: '/kid/track/$trackId/map'
+      path: '/kid/track/$trackId/map'
+      fullPath: '/kid/track/$trackId/map'
+      preLoaderRoute: typeof KidTrackTrackIdMapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdultDashboardRoute: AdultDashboardRoute,
+  KidClassRoute: KidClassRoute,
   KidHomeRoute: KidHomeRoute,
+  KidMeRoute: KidMeRoute,
+  KidPracticeRoute: KidPracticeRoute,
   KidTracksRoute: KidTracksRoute,
+  KidTreasuresRoute: KidTreasuresRoute,
   Char91__componentChar93PreviewSplatRoute:
     Char91__componentChar93PreviewSplatRoute,
   Char91__mockupChar93PreviewSplatRoute: Char91__mockupChar93PreviewSplatRoute,
+  KidLessonLessonIdRoute: KidLessonLessonIdRoute,
+  KidTrackTrackIdMapRoute: KidTrackTrackIdMapRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
