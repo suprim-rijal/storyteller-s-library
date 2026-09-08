@@ -90,7 +90,12 @@ function TrailMap() {
                   "grid-cols-[1fr_auto_1fr]",
                 )}
               >
-                <div className={cn("min-w-0", n.side === "left" ? "text-right" : "order-3")}>
+                <div
+                  className={cn(
+                    "min-w-0",
+                    n.side === "left" ? "col-start-1 text-right" : "col-start-3 text-left",
+                  )}
+                >
                   {n.state === "active" ? <Badge tone="language">IN PROGRESS</Badge> : null}
                   <h2
                     className={cn(
