@@ -10,12 +10,24 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as KidTracksRouteImport } from './routes/kid.tracks'
+import { Route as KidHomeRouteImport } from './routes/kid.home'
 import { Route as Char91__mockupChar93PreviewSplatRouteImport } from './routes/[__mockup].preview.$'
 import { Route as Char91__componentChar93PreviewSplatRouteImport } from './routes/[__component].preview.$'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KidTracksRoute = KidTracksRouteImport.update({
+  id: '/kid/tracks',
+  path: '/kid/tracks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KidHomeRoute = KidHomeRouteImport.update({
+  id: '/kid/home',
+  path: '/kid/home',
   getParentRoute: () => rootRouteImport,
 } as any)
 const Char91__mockupChar93PreviewSplatRoute =
@@ -33,30 +45,54 @@ const Char91__componentChar93PreviewSplatRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/kid/home': typeof KidHomeRoute
+  '/kid/tracks': typeof KidTracksRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/kid/home': typeof KidHomeRoute
+  '/kid/tracks': typeof KidTracksRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/kid/home': typeof KidHomeRoute
+  '/kid/tracks': typeof KidTracksRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/__component/preview/$' | '/__mockup/preview/$'
+  fullPaths:
+    | '/'
+    | '/kid/home'
+    | '/kid/tracks'
+    | '/__component/preview/$'
+    | '/__mockup/preview/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/__component/preview/$' | '/__mockup/preview/$'
-  id: '__root__' | '/' | '/__component/preview/$' | '/__mockup/preview/$'
+  to:
+    | '/'
+    | '/kid/home'
+    | '/kid/tracks'
+    | '/__component/preview/$'
+    | '/__mockup/preview/$'
+  id:
+    | '__root__'
+    | '/'
+    | '/kid/home'
+    | '/kid/tracks'
+    | '/__component/preview/$'
+    | '/__mockup/preview/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  KidHomeRoute: typeof KidHomeRoute
+  KidTracksRoute: typeof KidTracksRoute
   Char91__componentChar93PreviewSplatRoute: typeof Char91__componentChar93PreviewSplatRoute
   Char91__mockupChar93PreviewSplatRoute: typeof Char91__mockupChar93PreviewSplatRoute
 }
@@ -68,6 +104,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kid/tracks': {
+      id: '/kid/tracks'
+      path: '/kid/tracks'
+      fullPath: '/kid/tracks'
+      preLoaderRoute: typeof KidTracksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kid/home': {
+      id: '/kid/home'
+      path: '/kid/home'
+      fullPath: '/kid/home'
+      preLoaderRoute: typeof KidHomeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/__mockup/preview/$': {
@@ -89,6 +139,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  KidHomeRoute: KidHomeRoute,
+  KidTracksRoute: KidTracksRoute,
   Char91__componentChar93PreviewSplatRoute:
     Char91__componentChar93PreviewSplatRoute,
   Char91__mockupChar93PreviewSplatRoute: Char91__mockupChar93PreviewSplatRoute,
