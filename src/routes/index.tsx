@@ -50,8 +50,13 @@ function Landing() {
               as often as they like.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link to="/kid/home">
+              <Link to="/kid/welcome">
                 <Button size="lg">Start Learning →</Button>
+              </Link>
+              <Link to="/kid/home">
+                <Button size="lg" variant="quiet">
+                  Continue my journey
+                </Button>
               </Link>
               <Link to="/adult/dashboard">
                 <Button size="lg" variant="outline">

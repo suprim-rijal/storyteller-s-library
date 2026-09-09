@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Lock } from "lucide-react";
-import { Badge, Card, StatCard } from "@/design-system/nepali-kids";
+import { Badge, Button, Card, StatCard } from "@/design-system/nepali-kids";
+import { trackProgress, useProgress } from "@/lib/progress";
 import selRoti from "@/assets/illustrations/sel-roti.jpg";
 
 export const Route = createFileRoute("/adult/dashboard")({
@@ -31,6 +32,10 @@ const milestones = [
 ] as const;
 
 function ParentPortal() {
+  const { state } = useProgress();
+  const lp = trackProgress(state, "language");
+  const cp = trackProgress(state, "culture");
+  const lessons = lp.doneLessons + cp.doneLessons;
   return (
     <div className="min-h-screen bg-white">
       <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 border-b border-line bg-white px-4 py-4 lg:px-8">
@@ -48,7 +53,7 @@ function ParentPortal() {
           </div>
         </div>
         <div className="flex shrink-0 items-center gap-4">
-          <span className="hidden text-sm text-ink-soft sm:inline">Aarav's Path</span>
+          <span className="hidden text-sm text-ink-soft sm:inline">{state.name}'s path</span>
           <Link
             to="/kid/home"
             className="rounded-lg bg-language px-4 py-2 text-sm font-bold text-white hover:bg-language/90"
@@ -62,9 +67,21 @@ function ParentPortal() {
         <div className="grid gap-5 lg:grid-cols-[1.4fr_1fr]">
           <div className="flex flex-col gap-5">
             <div className="grid gap-5 sm:grid-cols-3">
-              <StatCard label="Learning days" value="3 days" hint="This week" />
-              <StatCard label="Play time" value="45 mins" hint="Organic exploration" />
-              <StatCard label="Lessons completed" value="12 steps" hint="Language + Culture" />
+              <StatCard
+                label="Learning days"
+                value={`${state.rhythmDays.length} days`}
+                hint="Rest days are expected"
+              />
+              <StatCard
+                label="Modules mastered"
+                value={`${lp.mastered + cp.mastered}`}
+                hint={`${lp.mastered} language · ${cp.mastered} culture`}
+              />
+              <StatCard
+                label="Lessons experienced"
+                value={`${lessons} steps`}
+                hint="Completion is not mastery"
+              />
             </div>
 
             <Card className="p-6">
@@ -119,6 +136,38 @@ function ParentPortal() {
             <p className="mt-4 text-xs text-ink-soft">
               States follow a CEFR-informed scale. Nepali Kids never ranks children
               against one another.
+            </p>
+          </Card>
+        </div>
+
+        <div className="mt-5 grid gap-5 lg:grid-cols-2">
+          <Card className="p-6">
+            <h2 className="font-display text-xl font-extrabold">Controls</h2>
+            <ul className="mt-3 space-y-2 text-sm text-ink-soft">
+              <li>Microphone and voice recording: off unless you turn them on.</li>
+              <li>Daily session reminder: at most one, sent to you, never to the child.</li>
+              <li>Class link: one teacher, revocable at any time.</li>
+              <li>Content and reading level follow the chosen age band, not a test score.</li>
+            </ul>
+            <Link to="/adult/consent" className="mt-4 inline-block">
+              <Button variant="outline" size="sm">
+                Review consent settings →
+              </Button>
+            </Link>
+          </Card>
+
+          <Card className="p-6">
+            <h2 className="font-display text-xl font-extrabold">Privacy</h2>
+            <ul className="mt-3 space-y-2 text-sm text-ink-soft">
+              <li>No ads, no ad tracking, no selling data, no public profiles.</li>
+              <li>Learning records are pseudonymous and kept apart from your contact details.</li>
+              <li>Audio is deleted after the sound check unless you asked us to keep it.</li>
+              <li>You can export or delete everything, and deletion is confirmed to you.</li>
+              <li>We never infer or store a child's caste, ethnicity, religion or status.</li>
+            </ul>
+            <p className="mt-4 text-xs text-ink-soft">
+              Culture content is reviewed by community readers, always shows more than one
+              perspective, and has a correction pathway if something looks wrong to you.
             </p>
           </Card>
         </div>
