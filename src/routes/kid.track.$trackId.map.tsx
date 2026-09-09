@@ -1,60 +1,41 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { Sprout, Flower2, Lock, Star } from "lucide-react";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { Lock, Sprout, Flower2, RefreshCw } from "lucide-react";
 import { Badge, Button, Card, cn } from "@/design-system/nepali-kids";
 import { KidNav } from "@/components/KidNav";
+import { bridges, getTrack } from "@/data/curriculum";
+import { moduleStatus, useProgress } from "@/lib/progress";
 import trailBg from "@/assets/illustrations/mountain-trail-bg.jpg";
 
 export const Route = createFileRoute("/kid/track/$trackId/map")({
-  head: () => ({
-    meta: [
-      { title: "Chapter Trail — Nepali Kids" },
-      {
-        name: "description",
-        content:
-          "The vertical journey map of chapters: mastered, in progress and locked.",
-      },
-      { property: "og:title", content: "Chapter Trail — Nepali Kids" },
-      {
-        property: "og:description",
-        content: "Ascend step-by-step to the summit of sounds.",
-      },
-    ],
-  }),
-  component: TrailMap,
+  head: ({ params }) => {
+    const title =
+      params.trackId === "culture"
+        ? "Discover Nepal — Chapter Trail"
+        : "Nepali Language — Chapter Trail";
+    return {
+      meta: [
+        { title: `${title} — Nepali Kids` },
+        {
+          name: "description",
+          content:
+            "A vertical journey map of chapters and modules, showing mastered, active and locked steps with their prerequisites.",
+        },
+        { property: "og:title", content: title },
+        {
+          property: "og:description",
+          content: "Follow the trail chapter by chapter. Locked steps always say what to finish first.",
+        },
+      ],
+    };
+  },
+  component: TrackMap,
 });
 
-type NodeState = "mastered" | "active" | "locked";
-
-const nodes: {
-  state: NodeState;
-  title: string;
-  meta: string;
-  side: "left" | "right";
-}[] = [
-  {
-    state: "mastered",
-    title: "Chapter 1: Hill Greetings",
-    meta: "5 modules · Mastered ✿",
-    side: "left",
-  },
-  {
-    state: "active",
-    title: "Chapter 2: Vowel Valley",
-    meta: "3 / 6 modules · 15 mins left",
-    side: "right",
-  },
-  {
-    state: "locked",
-    title: "Chapter 3: Consonant Trails",
-    meta: "8 modules · Locked",
-    side: "left",
-  },
-];
-
-function TrailMap() {
+function TrackMap() {
   const { trackId } = Route.useParams();
-  const navigate = useNavigate();
-  const isCulture = trackId === "culture";
+  const track = getTrack(trackId);
+  const { state } = useProgress();
+  if (!track) throw notFound();
 
   return (
     <div className="min-h-screen">
@@ -65,107 +46,134 @@ function TrailMap() {
           alt=""
           width={1536}
           height={1024}
-          className="absolute inset-0 h-full w-full object-cover"
+          className="fixed inset-0 -z-10 h-full w-full object-cover opacity-70"
         />
-        <div className="absolute inset-0 bg-surface/25" />
 
-        <div className="relative mx-auto max-w-4xl px-4 py-12">
-          <h1 className="text-center font-display text-3xl font-extrabold sm:text-4xl">
-            Chapter Trail: {isCulture ? "Discover Nepal" : "Nepali Language"}
-          </h1>
-          <p className="mt-2 text-center text-sm text-ink-soft">
-            Let's ascend step-by-step to the summit of sounds!
-          </p>
+        <div className="mx-auto max-w-3xl px-4 py-10">
+          <div className="text-center">
+            <Badge tone={track.id}>{track.nepaliTitle}</Badge>
+            <h1 className="mt-2 font-display text-3xl font-extrabold sm:text-4xl">
+              Chapter Trail: {track.title}
+            </h1>
+            <p className="mt-2 text-sm text-ink-soft">{track.tagline}</p>
+          </div>
 
-          <ol className="relative mt-12 space-y-14">
-            <span
-              aria-hidden
-              className="absolute left-1/2 top-0 h-full -translate-x-1/2 border-l-4 border-dotted border-ink/25"
-            />
-            {nodes.map((n) => (
-              <li
-                key={n.title}
-                className={cn(
-                  "relative grid items-center gap-4",
-                  "grid-cols-[1fr_auto_1fr]",
-                )}
-              >
-                <div
-                  className={cn(
-                    "min-w-0",
-                    n.side === "left" ? "col-start-1 text-right" : "col-start-3 text-left",
-                  )}
-                >
-                  {n.state === "active" ? <Badge tone="language">IN PROGRESS</Badge> : null}
-                  <h2
+          <ol className="relative mt-10 space-y-8 border-l-2 border-dashed border-line pl-8">
+            {track.chapters.map((chapter) => {
+              const mastered = chapter.modules.every((m) =>
+                state.masteredModules.includes(m.id),
+              );
+              const open = chapter.modules.some(
+                (m) => moduleStatus(state, m.id) !== "locked",
+              );
+              return (
+                <li key={chapter.id} className="relative">
+                  <span
                     className={cn(
-                      "font-display text-lg font-extrabold",
-                      n.state === "mastered" && "text-grow",
-                      n.state === "active" && "text-ink",
-                      n.state === "locked" && "text-ink-soft/60",
+                      "absolute -left-[2.6rem] grid h-12 w-12 place-items-center rounded-full border-4 border-surface",
+                      mastered
+                        ? "bg-grow text-white"
+                        : open
+                          ? track.id === "language"
+                            ? "bg-language pulse-ring text-white"
+                            : "bg-culture pulse-ring text-white"
+                          : "bg-line text-ink-soft",
                     )}
                   >
-                    {n.title}
-                  </h2>
-                  <p
-                    className={cn(
-                      "text-xs font-bold",
-                      n.state === "locked" ? "text-ink-soft/50" : "text-ink-soft",
-                    )}
-                  >
-                    {n.meta}
-                  </p>
-                </div>
+                    {mastered ? <Flower2 size={20} /> : open ? <Sprout size={20} /> : <Lock size={18} />}
+                  </span>
 
-                <button
-                  type="button"
-                  disabled={n.state !== "active"}
-                  onClick={() =>
-                    navigate({ to: "/kid/lesson/$lessonId", params: { lessonId: "vowel-a" } })
-                  }
-                  aria-label={n.title}
-                  className={cn(
-                    "col-start-2 grid h-16 w-16 place-items-center rounded-full border-4 bg-surface transition",
-                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-language",
-                    n.state === "mastered" && "border-grow text-grow",
-                    n.state === "active" && "pulse-ring border-language text-language hover:scale-105",
-                    n.state === "locked" && "cursor-not-allowed border-line text-ink-soft/50",
-                  )}
-                >
-                  {n.state === "mastered" ? (
-                    <Flower2 size={26} />
-                  ) : n.state === "active" ? (
-                    <Sprout size={26} />
-                  ) : (
-                    <Lock size={24} />
-                  )}
-                </button>
+                  <Card translucent bold accent={mastered ? "grow" : open ? track.id : "none"} className="p-5">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <Badge tone={mastered ? "grow" : open ? track.id : "neutral"}>
+                        {chapter.code}
+                      </Badge>
+                      {mastered ? (
+                        <Badge tone="grow">Mastered</Badge>
+                      ) : open ? (
+                        <Badge tone="sun">In progress</Badge>
+                      ) : (
+                        <Badge tone="neutral">
+                          Locked · finish the chapter above first
+                        </Badge>
+                      )}
+                    </div>
+                    <h2 className="mt-2 font-display text-xl font-extrabold">
+                      {chapter.title}
+                      {chapter.nepaliTitle ? (
+                        <span lang="ne" className="ml-2 text-base text-ink-soft">
+                          {chapter.nepaliTitle}
+                        </span>
+                      ) : null}
+                    </h2>
+                    <p className="mt-1 text-sm text-ink-soft">{chapter.summary}</p>
 
-
-              </li>
-            ))}
+                    <ul className="mt-4 space-y-2">
+                      {chapter.modules.map((m) => {
+                        const status = moduleStatus(state, m.id);
+                        return (
+                          <li key={m.id}>
+                            <Link
+                              to="/kid/module/$moduleId"
+                              params={{ moduleId: m.id }}
+                              disabled={status === "locked"}
+                              className={cn(
+                                "flex items-center gap-3 rounded-2xl border px-3 py-2 text-sm transition",
+                                status === "locked"
+                                  ? "pointer-events-none border-line bg-canvas text-ink-soft"
+                                  : "border-line bg-surface hover:border-language",
+                              )}
+                            >
+                              <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-canvas">
+                                {status === "mastered" ? (
+                                  <Flower2 size={14} className="text-grow" />
+                                ) : status === "in-progress" ? (
+                                  <RefreshCw size={14} className="text-sun" />
+                                ) : status === "available" ? (
+                                  <Sprout size={14} className="text-language" />
+                                ) : (
+                                  <Lock size={13} />
+                                )}
+                              </span>
+                              <span className="min-w-0 flex-1">
+                                <span className="font-bold">{m.code}</span> {m.title}
+                              </span>
+                              <span className="shrink-0 text-xs font-bold uppercase text-ink-soft">
+                                {status === "locked" ? "locked" : status}
+                              </span>
+                            </Link>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </Card>
+                </li>
+              );
+            })}
           </ol>
 
-          <Card
-            accent="sun"
-            bold
-            translucent
-            className="mt-16 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 p-5 shadow-[0_0_28px_-6px_rgba(240,160,32,0.6)] sm:flex sm:justify-between"
-          >
-            <div className="flex min-w-0 items-center gap-3">
-              <Star size={22} className="shrink-0 text-sun" />
-              <div className="min-w-0">
-                <h3 className="font-display font-extrabold">
-                  Bridge Trail: Monkey Temple Adventure
-                </h3>
-                <p className="text-sm text-ink-soft">
-                  A beautiful cross-track cultural dive! Earn a special monkey seal.
-                </p>
-              </div>
-            </div>
-            <Link to="/kid/lesson/$lessonId" params={{ lessonId: "monkey-temple" }}>
-              <Button variant="sun" size="sm" className="bg-transparent text-sun hover:bg-sun-soft">
-                Cross →
+          <Card accent="dream" bold className="mt-10 bg-dream-soft p-5">
+            <Badge tone="dream">Optional bridge trail</Badge>
+            <h2 className="mt-2 font-display text-xl font-extrabold text-dream">
+              Cross-track adventures
+            </h2>
+            <p className="mt-1 text-sm text-ink-soft">
+              Bridges open when both tracks are ready. They add a little evidence to each
+              side and never unlock a core module by themselves.
+            </p>
+            <ul className="mt-4 space-y-3">
+              {bridges.slice(0, 4).map((b) => (
+                <li key={b.id} className="rounded-2xl bg-surface p-3 text-sm">
+                  <p className="font-bold">{b.experience}</p>
+                  <p className="mt-1 text-xs text-ink-soft">
+                    Needs {b.languagePrereq} + {b.culturePrereq} · reward: {b.reward}
+                  </p>
+                </li>
+              ))}
+            </ul>
+            <Link to="/kid/treasures" className="mt-4 inline-block">
+              <Button variant="outline" size="sm">
+                See all bridges and treasures →
               </Button>
             </Link>
           </Card>

@@ -17,10 +17,13 @@ import { Route as KidMeRouteImport } from './routes/kid.me'
 import { Route as KidHomeRouteImport } from './routes/kid.home'
 import { Route as KidClassRouteImport } from './routes/kid.class'
 import { Route as AdultDashboardRouteImport } from './routes/adult.dashboard'
+import { Route as KidModuleModuleIdRouteImport } from './routes/kid.module.$moduleId'
 import { Route as KidLessonLessonIdRouteImport } from './routes/kid.lesson.$lessonId'
+import { Route as KidChapterChapterIdRouteImport } from './routes/kid.chapter.$chapterId'
 import { Route as Char91__mockupChar93PreviewSplatRouteImport } from './routes/[__mockup].preview.$'
 import { Route as Char91__componentChar93PreviewSplatRouteImport } from './routes/[__component].preview.$'
 import { Route as KidTrackTrackIdMapRouteImport } from './routes/kid.track.$trackId.map'
+import { Route as KidModuleModuleIdReviewRouteImport } from './routes/kid.module.$moduleId.review'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -62,9 +65,19 @@ const AdultDashboardRoute = AdultDashboardRouteImport.update({
   path: '/adult/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const KidModuleModuleIdRoute = KidModuleModuleIdRouteImport.update({
+  id: '/kid/module/$moduleId',
+  path: '/kid/module/$moduleId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const KidLessonLessonIdRoute = KidLessonLessonIdRouteImport.update({
   id: '/kid/lesson/$lessonId',
   path: '/kid/lesson/$lessonId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KidChapterChapterIdRoute = KidChapterChapterIdRouteImport.update({
+  id: '/kid/chapter/$chapterId',
+  path: '/kid/chapter/$chapterId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const Char91__mockupChar93PreviewSplatRoute =
@@ -84,6 +97,11 @@ const KidTrackTrackIdMapRoute = KidTrackTrackIdMapRouteImport.update({
   path: '/kid/track/$trackId/map',
   getParentRoute: () => rootRouteImport,
 } as any)
+const KidModuleModuleIdReviewRoute = KidModuleModuleIdReviewRouteImport.update({
+  id: '/review',
+  path: '/review',
+  getParentRoute: () => KidModuleModuleIdRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -96,7 +114,10 @@ export interface FileRoutesByFullPath {
   '/kid/treasures': typeof KidTreasuresRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
+  '/kid/chapter/$chapterId': typeof KidChapterChapterIdRoute
   '/kid/lesson/$lessonId': typeof KidLessonLessonIdRoute
+  '/kid/module/$moduleId': typeof KidModuleModuleIdRouteWithChildren
+  '/kid/module/$moduleId/review': typeof KidModuleModuleIdReviewRoute
   '/kid/track/$trackId/map': typeof KidTrackTrackIdMapRoute
 }
 export interface FileRoutesByTo {
@@ -110,7 +131,10 @@ export interface FileRoutesByTo {
   '/kid/treasures': typeof KidTreasuresRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
+  '/kid/chapter/$chapterId': typeof KidChapterChapterIdRoute
   '/kid/lesson/$lessonId': typeof KidLessonLessonIdRoute
+  '/kid/module/$moduleId': typeof KidModuleModuleIdRouteWithChildren
+  '/kid/module/$moduleId/review': typeof KidModuleModuleIdReviewRoute
   '/kid/track/$trackId/map': typeof KidTrackTrackIdMapRoute
 }
 export interface FileRoutesById {
@@ -125,7 +149,10 @@ export interface FileRoutesById {
   '/kid/treasures': typeof KidTreasuresRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
+  '/kid/chapter/$chapterId': typeof KidChapterChapterIdRoute
   '/kid/lesson/$lessonId': typeof KidLessonLessonIdRoute
+  '/kid/module/$moduleId': typeof KidModuleModuleIdRouteWithChildren
+  '/kid/module/$moduleId/review': typeof KidModuleModuleIdReviewRoute
   '/kid/track/$trackId/map': typeof KidTrackTrackIdMapRoute
 }
 export interface FileRouteTypes {
@@ -141,7 +168,10 @@ export interface FileRouteTypes {
     | '/kid/treasures'
     | '/__component/preview/$'
     | '/__mockup/preview/$'
+    | '/kid/chapter/$chapterId'
     | '/kid/lesson/$lessonId'
+    | '/kid/module/$moduleId'
+    | '/kid/module/$moduleId/review'
     | '/kid/track/$trackId/map'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -155,7 +185,10 @@ export interface FileRouteTypes {
     | '/kid/treasures'
     | '/__component/preview/$'
     | '/__mockup/preview/$'
+    | '/kid/chapter/$chapterId'
     | '/kid/lesson/$lessonId'
+    | '/kid/module/$moduleId'
+    | '/kid/module/$moduleId/review'
     | '/kid/track/$trackId/map'
   id:
     | '__root__'
@@ -169,7 +202,10 @@ export interface FileRouteTypes {
     | '/kid/treasures'
     | '/__component/preview/$'
     | '/__mockup/preview/$'
+    | '/kid/chapter/$chapterId'
     | '/kid/lesson/$lessonId'
+    | '/kid/module/$moduleId'
+    | '/kid/module/$moduleId/review'
     | '/kid/track/$trackId/map'
   fileRoutesById: FileRoutesById
 }
@@ -184,7 +220,9 @@ export interface RootRouteChildren {
   KidTreasuresRoute: typeof KidTreasuresRoute
   Char91__componentChar93PreviewSplatRoute: typeof Char91__componentChar93PreviewSplatRoute
   Char91__mockupChar93PreviewSplatRoute: typeof Char91__mockupChar93PreviewSplatRoute
+  KidChapterChapterIdRoute: typeof KidChapterChapterIdRoute
   KidLessonLessonIdRoute: typeof KidLessonLessonIdRoute
+  KidModuleModuleIdRoute: typeof KidModuleModuleIdRouteWithChildren
   KidTrackTrackIdMapRoute: typeof KidTrackTrackIdMapRoute
 }
 
@@ -246,11 +284,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdultDashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/kid/module/$moduleId': {
+      id: '/kid/module/$moduleId'
+      path: '/kid/module/$moduleId'
+      fullPath: '/kid/module/$moduleId'
+      preLoaderRoute: typeof KidModuleModuleIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/kid/lesson/$lessonId': {
       id: '/kid/lesson/$lessonId'
       path: '/kid/lesson/$lessonId'
       fullPath: '/kid/lesson/$lessonId'
       preLoaderRoute: typeof KidLessonLessonIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kid/chapter/$chapterId': {
+      id: '/kid/chapter/$chapterId'
+      path: '/kid/chapter/$chapterId'
+      fullPath: '/kid/chapter/$chapterId'
+      preLoaderRoute: typeof KidChapterChapterIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/__mockup/preview/$': {
@@ -274,8 +326,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof KidTrackTrackIdMapRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/kid/module/$moduleId/review': {
+      id: '/kid/module/$moduleId/review'
+      path: '/review'
+      fullPath: '/kid/module/$moduleId/review'
+      preLoaderRoute: typeof KidModuleModuleIdReviewRouteImport
+      parentRoute: typeof KidModuleModuleIdRoute
+    }
   }
 }
+
+interface KidModuleModuleIdRouteChildren {
+  KidModuleModuleIdReviewRoute: typeof KidModuleModuleIdReviewRoute
+}
+
+const KidModuleModuleIdRouteChildren: KidModuleModuleIdRouteChildren = {
+  KidModuleModuleIdReviewRoute: KidModuleModuleIdReviewRoute,
+}
+
+const KidModuleModuleIdRouteWithChildren =
+  KidModuleModuleIdRoute._addFileChildren(KidModuleModuleIdRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -289,7 +359,9 @@ const rootRouteChildren: RootRouteChildren = {
   Char91__componentChar93PreviewSplatRoute:
     Char91__componentChar93PreviewSplatRoute,
   Char91__mockupChar93PreviewSplatRoute: Char91__mockupChar93PreviewSplatRoute,
+  KidChapterChapterIdRoute: KidChapterChapterIdRoute,
   KidLessonLessonIdRoute: KidLessonLessonIdRoute,
+  KidModuleModuleIdRoute: KidModuleModuleIdRouteWithChildren,
   KidTrackTrackIdMapRoute: KidTrackTrackIdMapRoute,
 }
 export const routeTree = rootRouteImport
