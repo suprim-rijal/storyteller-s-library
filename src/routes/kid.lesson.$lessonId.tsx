@@ -1,156 +1,107 @@
 import { useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { X, AudioLines } from "lucide-react";
-import { Badge, Button, Card, cn } from "@/design-system/nepali-kids";
-import mango from "@/assets/illustrations/mango.png";
+import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
+import { X } from "lucide-react";
+import { Badge, Button, Card } from "@/design-system/nepali-kids";
+import { LessonEngine } from "@/components/LessonEngine";
+import { getChapterOfModule, getLesson, getTrackOfChapter } from "@/data/curriculum";
+import { buildLesson } from "@/lib/exercises";
+import { useProgress } from "@/lib/progress";
 
 export const Route = createFileRoute("/kid/lesson/$lessonId")({
-  head: () => ({
-    meta: [
-      { title: "Lesson: Vowels — Nepali Kids" },
-      {
-        name: "description",
-        content:
-          "Listen to the Devanagari vowel and tap the matching word. Infinite retries, no lives.",
-      },
-      { property: "og:title", content: "Lesson: Vowels — Nepali Kids" },
-      {
-        property: "og:description",
-        content: "The core Nepali Kids lesson player: hear it, find it.",
-      },
-    ],
-  }),
+  head: ({ params }) => {
+    const found = getLesson(params.lessonId);
+    const title = found ? `${found.lesson.title} — ${found.module.title}` : "Lesson";
+    return {
+      meta: [
+        { title: `${title} — Nepali Kids` },
+        {
+          name: "description",
+          content:
+            "A 5–10 minute lesson: encounter, notice, retrieve and use. Infinite retries, hints that never cost anything.",
+        },
+        { property: "og:title", content: title },
+        { property: "og:description", content: "The Nepali Kids lesson player." },
+      ],
+    };
+  },
   component: LessonPlayer,
 });
 
-const options = [
-  { np: "आम", en: "Aap (Mango)", correct: true },
-  { np: "कुकुर", en: "Kukur (Dog)", correct: false },
-  { np: "स्याउ", en: "Syaau (Apple)", correct: false },
-  { np: "घर", en: "Ghar (House)", correct: false },
-];
-
-const steps = [true, true, true, false, false, false, false];
-
 function LessonPlayer() {
-  const [selected, setSelected] = useState<number | null>(null);
-  const chosen = selected === null ? null : options[selected];
+  const { lessonId } = Route.useParams();
+  const found = getLesson(lessonId);
+  const navigate = useNavigate();
+  const { state, completeLesson } = useProgress();
+  const [finished, setFinished] = useState<{ flowers: number } | null>(null);
+  if (!found) throw notFound();
+
+  const { lesson, module: mod } = found;
+  const chapter = getChapterOfModule(mod.id)!;
+  const track = getTrackOfChapter(chapter.id)!;
+  const index = mod.lessons.findIndex((l) => l.id === lesson.id);
+  const exercises = buildLesson(mod, index);
+  const nextLesson = mod.lessons[index + 1];
 
   return (
     <div className="min-h-screen">
-      <header className="sticky top-0 z-20 grid grid-cols-[auto_1fr_auto] items-center gap-4 border-b border-line bg-surface px-4 py-3">
+      <header className="sticky top-0 z-20 flex items-center gap-4 border-b border-line bg-surface px-4 py-3">
         <Link
-          to="/kid/home"
-          aria-label="Close lesson"
+          to="/kid/module/$moduleId"
+          params={{ moduleId: mod.id }}
+          aria-label="Exit and save"
           className="grid h-9 w-9 place-items-center rounded-full border-2 border-line text-ink-soft hover:bg-canvas"
         >
           <X size={17} />
         </Link>
-        <div className="flex min-w-0 items-center gap-3">
-          <span className="truncate font-display text-sm font-extrabold sm:text-base">
-            Chapter 2: Lesson 1 Vowels
-          </span>
-          <span className="ml-auto flex gap-1.5" aria-label="Lesson progress">
-            {steps.map((done, i) => (
-              <span
-                key={i}
-                className={cn(
-                  "h-2.5 w-2.5 rounded-full",
-                  done ? "bg-grow" : "bg-line",
-                )}
-              />
-            ))}
-          </span>
-        </div>
-        <Badge tone="sun">3 / 7 Flowers</Badge>
+        <span className="min-w-0 truncate font-display text-sm font-extrabold sm:text-base">
+          {mod.code} · Lesson {index + 1}: {lesson.title}
+        </span>
+        <Badge tone="neutral" className="ml-auto shrink-0">
+          {lesson.phase}
+        </Badge>
       </header>
 
-      <main className="mx-auto max-w-5xl px-4 py-10">
-        <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
-          <Card accent="language" bold className="flex flex-col items-center p-6">
-            <div className="grid aspect-square w-full max-w-[220px] place-items-center rounded-2xl bg-language-soft font-display text-8xl font-extrabold text-language">
-              अ
-            </div>
-            <Button variant="grow" className="mt-5">
-              <AudioLines size={18} /> Listen to sound
-            </Button>
-          </Card>
-
-          <div>
-            <Badge tone="grow">WHAT SOUND IS THIS?</Badge>
-            <h1 className="mt-3 font-display text-3xl font-extrabold">
-              Tap the correct word for 'अ'
+      <main className="mx-auto max-w-5xl px-4 py-8">
+        {finished ? (
+          <Card accent="grow" bold className="bg-grow-soft p-6">
+            <Badge tone="grow">Reflect</Badge>
+            <h1 className="mt-2 font-display text-3xl font-extrabold">
+              {finished.flowers} ✿ flowers. Well done, {state.name}!
             </h1>
-            <Card className="mt-5 flex items-center gap-4 bg-canvas p-4">
-              <img
-                src={mango}
-                alt="A ripe mango"
-                loading="lazy"
-                width={512}
-                height={512}
-                className="h-14 w-14 shrink-0 object-contain"
-              />
-              <div className="min-w-0">
-                <p className="font-bold">आम (Mango)</p>
-                <p className="text-sm text-ink-soft">
-                  Starts with 'अ' sound. Can you find it below?
-                </p>
-              </div>
-            </Card>
-          </div>
-        </div>
-
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {options.map((o, i) => {
-            const isSelected = selected === i;
-            return (
-              <button
-                key={o.np}
-                type="button"
-                onClick={() => setSelected(i)}
-                aria-pressed={isSelected}
-                className={cn(
-                  "rounded-card border-2 bg-surface p-6 text-center transition",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-language",
-                  "hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)]",
-                  isSelected && o.correct && "border-grow bg-grow-soft",
-                  isSelected && !o.correct && "border-culture bg-culture-soft",
-                  !isSelected && "border-line",
-                )}
-              >
-                <span
-                  className={cn(
-                    "block font-display text-3xl font-extrabold",
-                    isSelected && o.correct ? "text-grow" : "text-ink",
-                  )}
+            <p className="mt-2 text-ink-soft">
+              You can now: {mod.goal.toLowerCase()} These words will come back in a story soon.
+            </p>
+            <div className="mt-5 flex flex-wrap gap-3">
+              {nextLesson ? (
+                <Button
+                  variant="grow"
+                  onClick={() =>
+                    navigate({ to: "/kid/lesson/$lessonId", params: { lessonId: nextLesson.id } })
+                  }
                 >
-                  {o.np}
-                </span>
-                <span className="mt-1 block text-xs font-bold text-ink-soft">{o.en}</span>
-              </button>
-            );
-          })}
-        </div>
-
-        <div className="mt-8 min-h-16" aria-live="polite">
-          {chosen?.correct ? (
-            <Card accent="grow" bold className="flex flex-wrap items-center gap-4 bg-grow-soft p-5">
-              <p className="font-display font-extrabold text-grow">
-                Shabash! 'आम' begins with अ. ✿ +1 flower
-              </p>
-              <Button variant="grow" size="sm" className="ml-auto">
-                Next step →
-              </Button>
-            </Card>
-          ) : chosen ? (
-            <Card accent="culture" bold className="bg-culture-soft p-5">
-              <p className="font-display font-extrabold text-culture">
-                Close! '{chosen.np}' starts with a different sound. Listen again and
-                try as many times as you like.
-              </p>
-            </Card>
-          ) : null}
-        </div>
+                  Next lesson →
+                </Button>
+              ) : (
+                <Link to="/kid/module/$moduleId/review" params={{ moduleId: mod.id }}>
+                  <Button variant="grow">See my readiness review →</Button>
+                </Link>
+              )}
+              <Link to="/kid/home">
+                <Button variant="outline">Back home</Button>
+              </Link>
+            </div>
+          </Card>
+        ) : (
+          <LessonEngine
+            exercises={exercises}
+            accent={track.id}
+            romanization={state.romanization}
+            onFinish={({ flowers }) => {
+              completeLesson(lesson.id, 20);
+              setFinished({ flowers });
+            }}
+          />
+        )}
       </main>
     </div>
   );
