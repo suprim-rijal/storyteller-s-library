@@ -71,7 +71,7 @@ function KidHome() {
             <div className="min-w-0">
               <Badge tone="sun">NAMASTE &amp; WELCOME!</Badge>
               <h1 className="mt-2 font-display text-2xl font-extrabold leading-snug sm:text-3xl">
-                Ready for {nextModule.title.toLowerCase()} today, {state.name}?
+                Ready to {nextLesson.title.toLowerCase()} today, {state.name}?
               </h1>
               <p className="mt-2 text-sm text-ink-soft">
                 {due > 0
