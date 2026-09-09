@@ -1,0 +1,360 @@
+{
+  "meta": {
+    "name": "Storyteller's Library",
+    "package": "@ws-qixgtx20gw4yqsd3pljk/171753e2-9ce5-4a2d-b0f2-356b45792c42",
+    "version": "1.0.0",
+    "framework": "react",
+    "css_framework": "tailwind",
+    "starter_template": "custom_design_system",
+    "theme_files": [
+      "src/styles.css"
+    ],
+    "source_type": "local",
+    "source_manifest": {
+      "#enrichment": "86c5331394ffff77a95564449f8b35f412b7a4a83c949332496d693905bafcd3",
+      ".gitignore": "6059213806e442947666752f3db6bfdc",
+      ".lovable/meta.yaml": "77fd838353a70836e811a6991e45a92c",
+      "README.md": "d19675c449605f23c7cfa133c69b398b",
+      "bunfig.toml": "25f4c8696b22b0943db7191e0cdf7942",
+      "eslint.config.js": "07a67437fb1a45ab36d6de0145ff09de",
+      "mockupPreviewPlugin.ts": "8024d439734f27417621536969f64db1",
+      "package.json": "1eb44e2fa5aa6cb6ae09a2d314c4afdb",
+      "public/favicon.ico": "9f504444f85a5af2eef9264b02ae40be",
+      "src/assets/illustrations/garden-bg.jpg": "796a3ed6201830eb2b6cea20312d1edc",
+      "src/assets/illustrations/mango.png": "7a378b882f2752167713fbff18320e89",
+      "src/assets/illustrations/mountain-trail-bg.jpg": "bbb6661b6f3a0e44dcda7a517adfc8e4",
+      "src/assets/illustrations/sel-roti.jpg": "4c08b7227821deaa8f00ed92dd9beb51",
+      "src/assets/illustrations/track-culture.jpg": "5fc7c2fe1b48a860345460a5f0c437d6",
+      "src/assets/illustrations/track-language.jpg": "e7c1b5779e5bc76b6eceee5ec43df934",
+      "src/assets/illustrations/yak-mascot.png": "f381a252ad2d9f3d7ac88b91cfce15dd",
+      "src/components/KidNav.tsx": "3ff2bf352b13e1e25b40812b6714b67e",
+      "src/components/LessonEngine.tsx": "8224fb687205ed4429247b96adb8e5cc",
+      "src/data/culture.ts": "fb5070197dc5fa0937ef6fa4c281dfb5",
+      "src/data/curriculum.ts": "bf99cc0a39b09e5379a545a5f42c29e6",
+      "src/data/language.ts": "f6b000e598c65d6ad12c065d1ced8294",
+      "src/data/types.ts": "ad7b4da0c193b73e60c2dc30eba56dbb",
+      "src/design-system/nepali-kids/Badge.tsx": "9b9159dac4011700676f82720e1ba437",
+      "src/design-system/nepali-kids/Button.tsx": "692505213709d615d709d813917a6ab6",
+      "src/design-system/nepali-kids/Card.tsx": "3f4fc44a8647dbbbc2131131b84c462d",
+      "src/design-system/nepali-kids/ProgressBar.tsx": "41bc30efafb49abd7ceac5dfe801367e",
+      "src/design-system/nepali-kids/StatCard.tsx": "0f203bb0199f07e2826f1b2f9187e6ee",
+      "src/design-system/nepali-kids/index.ts": "1a64d26369363e0b67bfa90c6aaffdcd",
+      "src/design-system/nepali-kids/utils.ts": "d9837f38cc05303254571985e3164050",
+      "src/lib/exercises.ts": "1653221ecba79d717476cf5bbd4e7ad4",
+      "src/lib/progress.ts": "ea04ecf4358ae97a17d2124c32b94a90",
+      "src/mockup-preview.d.ts": "38969839f35ce2966e32a9f01a5c09ea",
+      "src/routeTree.gen.ts": "25f518b0708f8c31fa2e7f2946326652",
+      "src/router.tsx": "8f905e713b0eba7fa8148b7995a708c9",
+      "src/routes/[__component].preview.$.tsx": "3a40af1fe37daff2e891175a6e6d4f99",
+      "src/routes/[__mockup].preview.$.tsx": "5d9f42470848aa60148f20f9580e240e",
+      "src/routes/__root.tsx": "530fb61f55d9a5239d6b8ca068335de6",
+      "src/routes/adult.consent.tsx": "091950d6cffeeadf2b1b06d897022825",
+      "src/routes/adult.dashboard.tsx": "f2f6d1e86273bf822b05ca64de0fc646",
+      "src/routes/index.tsx": "17bd2d0ccef546826295f88c5b6f0a1a",
+      "src/routes/kid.chapter.$chapterId.tsx": "6ca9fba2ee6bc3c5415d9d766eed7019",
+      "src/routes/kid.checkpoint.$checkpointId.tsx": "404535ef609ddf55157ec9bb146e968f",
+      "src/routes/kid.class.tsx": "63c27cb301b2beb5ed68285f42ae802a",
+      "src/routes/kid.home.tsx": "2ba7b24f394a51429a17869e3306e962",
+      "src/routes/kid.lesson.$lessonId.tsx": "e41ed94769095bbc6b2de098f970fa12",
+      "src/routes/kid.me.tsx": "4c592b7ba0d8f56ebafdaa13e61b479c",
+      "src/routes/kid.module.$moduleId.result.tsx": "9a4d85e0fc7fbf18fe9be3e809c54462",
+      "src/routes/kid.module.$moduleId.review.tsx": "8112a7a2c91aeb8f6c0c13b0f3f0cc59",
+      "src/routes/kid.module.$moduleId.test.tsx": "468d252be7f3899380c1fe6b82182423",
+      "src/routes/kid.module.$moduleId.tsx": "672fdc1f4c8cae5b1077b5f2d519b870",
+      "src/routes/kid.practice.tsx": "99a25dcdcec26832bc36a6d9f850c7a0",
+      "src/routes/kid.ready.tsx": "b767b8817d43d03fb913b7141337340f",
+      "src/routes/kid.reward.$rewardId.tsx": "217774add19a095fea8e8ca97a522f17",
+      "src/routes/kid.setup.guide.tsx": "d4d62196cac71e7a3fde74aca81bb9af",
+      "src/routes/kid.setup.name.tsx": "62030d4b2f3ea8e2de5c84a81b182a64",
+      "src/routes/kid.setup.theme.tsx": "4a79c38b36de143abc82fc296a86892f",
+      "src/routes/kid.track.$trackId.map.tsx": "e5c44d2eb048ee27e37d642fd11e928b",
+      "src/routes/kid.tracks.tsx": "aa721402ab6e0d12382ac8bc6445b808",
+      "src/routes/kid.treasures.tsx": "9467c7b273622a6c9f77444ac95d141d",
+      "src/routes/kid.welcome.tsx": "e480c31790e367a899eba75096138711",
+      "src/styles.css": "e824bc3c867736a72a10afb8d33bee6a",
+      "tsconfig.json": "994abf64c2b9f78b568879f80ed0170e",
+      "vite.config.ts": "a9fda28bdfc0ba9c648b098b33637459",
+      "wrangler.jsonc": "680b897d48e44bcc65fe437c29b38f3b"
+    },
+    "pipeline_version": 8
+  },
+  "tokens": {
+    "color": [
+      {
+        "name": "--color-ink",
+        "raw": "#0f2c5c",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-ink-soft",
+        "raw": "#5b6b8c",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-canvas",
+        "raw": "#f5f8fd",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-surface",
+        "raw": "#ffffff",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-language",
+        "raw": "#1d4ed8",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-language-soft",
+        "raw": "#e8effc",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-culture",
+        "raw": "#e0447a",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-culture-soft",
+        "raw": "#fdeaf1",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-grow",
+        "raw": "#1f7a4d",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-grow-soft",
+        "raw": "#e5f4ec",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-sun",
+        "raw": "#f0a020",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-sun-soft",
+        "raw": "#fdf1dd",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-dream",
+        "raw": "#7c4dcc",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-dream-soft",
+        "raw": "#f1eafc",
+        "source": "src/styles.css"
+      }
+    ],
+    "typography": [
+      {
+        "name": "--font-display",
+        "raw": "\"Baloo 2\", \"Nunito\", system-ui, sans-serif",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--font-sans",
+        "raw": "\"Nunito\", system-ui, -apple-system, sans-serif",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--color-line",
+        "raw": "#e5ecf6",
+        "source": "src/styles.css"
+      }
+    ],
+    "radius": [
+      {
+        "name": "--radius-card",
+        "raw": "1.25rem",
+        "source": "src/styles.css"
+      }
+    ],
+    "shadow": [
+      {
+        "name": "--shadow-soft",
+        "raw": "0 6px 20px -8px rgb(15 44 92 / 0.18)",
+        "source": "src/styles.css"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Button",
+      "file": "src/design-system/nepali-kids/Button",
+      "import_path": "",
+      "props": [
+        {
+          "name": "variant",
+          "type": "enum",
+          "values": [
+            "language",
+            "culture",
+            "grow",
+            "sun",
+            "quiet",
+            "outline"
+          ],
+          "default": "language"
+        },
+        {
+          "name": "size",
+          "type": "enum",
+          "values": [
+            "sm",
+            "md",
+            "lg"
+          ],
+          "default": "md"
+        },
+        {
+          "name": "fullWidth",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "Card",
+      "file": "src/design-system/nepali-kids/Card",
+      "import_path": "",
+      "props": [
+        {
+          "name": "accent",
+          "type": "enum",
+          "values": [
+            "none",
+            "language",
+            "culture",
+            "grow",
+            "sun",
+            "dream"
+          ],
+          "default": "none"
+        },
+        {
+          "name": "bold",
+          "type": "boolean"
+        },
+        {
+          "name": "translucent",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "Badge",
+      "file": "src/design-system/nepali-kids/Badge",
+      "import_path": "",
+      "props": [
+        {
+          "name": "tone",
+          "type": "enum",
+          "values": [
+            "language",
+            "culture",
+            "grow",
+            "sun",
+            "dream",
+            "neutral"
+          ],
+          "default": "neutral"
+        }
+      ]
+    },
+    {
+      "name": "ProgressBar",
+      "file": "src/design-system/nepali-kids/ProgressBar",
+      "import_path": "",
+      "props": [
+        {
+          "name": "value",
+          "type": "number",
+          "required": true
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "default": "100"
+        },
+        {
+          "name": "tone",
+          "type": "enum",
+          "values": [
+            "language",
+            "culture",
+            "grow",
+            "sun"
+          ],
+          "default": "language"
+        },
+        {
+          "name": "label",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "StatCard",
+      "file": "src/design-system/nepali-kids/StatCard",
+      "import_path": "",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "hint",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "assets": [
+    {
+      "file": "src/assets/illustrations/garden-bg.jpg",
+      "kind": "illustration",
+      "format": "jpg"
+    },
+    {
+      "file": "src/assets/illustrations/mango.png",
+      "kind": "illustration",
+      "format": "png"
+    },
+    {
+      "file": "src/assets/illustrations/mountain-trail-bg.jpg",
+      "kind": "illustration",
+      "format": "jpg"
+    },
+    {
+      "file": "src/assets/illustrations/sel-roti.jpg",
+      "kind": "illustration",
+      "format": "jpg"
+    },
+    {
+      "file": "src/assets/illustrations/track-culture.jpg",
+      "kind": "illustration",
+      "format": "jpg"
+    },
+    {
+      "file": "src/assets/illustrations/track-language.jpg",
+      "kind": "illustration",
+      "format": "jpg"
+    },
+    {
+      "file": "src/assets/illustrations/yak-mascot.png",
+      "kind": "illustration",
+      "format": "png"
+    }
+  ]
+}
