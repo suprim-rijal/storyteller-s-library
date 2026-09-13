@@ -24,12 +24,12 @@ export function KidNav() {
   const [error, setError] = useState("");
   const isSetup = typeof window !== "undefined" && !hasParentPin();
 
-  const continueToParent = () => {
+  const continueToParent = async () => {
     if (!/^\d{4}$/.test(pin)) return setError("Enter a 4-digit PIN.");
     if (isSetup) {
       if (pin !== confirmPin) return setError("The PINs do not match.");
-      saveParentPin(pin);
-    } else if (!verifyParentPin(pin)) {
+      await saveParentPin(pin);
+    } else if (!(await verifyParentPin(pin))) {
       return setError("That PIN is not right. Try again or use recovery.");
     }
     unlockParentMode();
