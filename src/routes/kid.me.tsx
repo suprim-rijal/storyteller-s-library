@@ -8,14 +8,14 @@ import yak from "@/assets/illustrations/yak-mascot.png";
 export const Route = createFileRoute("/kid/me")({
   head: () => ({
     meta: [
-      { title: "Me — Nepali Kids" },
+      { title: "Me. Nepali Kids" },
       {
         name: "description",
         content:
-          "Your name, guide, theme, romanization and calm mode — plus your level and rhythm days.",
+          "Your name, guide, romanization and calm mode, plus your level and rhythm days.",
       },
-      { property: "og:title", content: "Me — Nepali Kids" },
-      { property: "og:description", content: "Avatar, theme and learning-pace settings." },
+      { property: "og:title", content: "Me. Nepali Kids" },
+      { property: "og:description", content: "Avatar, reading aids and learning-pace settings." },
     ],
   }),
   component: Me,

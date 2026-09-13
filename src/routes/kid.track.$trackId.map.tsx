@@ -10,11 +10,11 @@ export const Route = createFileRoute("/kid/track/$trackId/map")({
   head: ({ params }) => {
     const title =
       params.trackId === "culture"
-        ? "Discover Nepal — Chapter Trail"
-        : "Nepali Language — Chapter Trail";
+        ? "Discover Nepal. Chapter Trail"
+        : "Nepali Language. Chapter Trail";
     return {
       meta: [
-        { title: `${title} — Nepali Kids` },
+        { title: `${title}. Nepali Kids` },
         {
           name: "description",
           content:

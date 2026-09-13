@@ -61,7 +61,7 @@ export function useProgress() {
       if (!data.user) return;
       const { data: remote } = await supabase.from("learner_progress").select("*").eq("user_id", data.user.id).maybeSingle();
       if (!remote) return;
-      const merged: ProgressState = { ...read(), name: remote.learner_name, guide: remote.avatar_id, xp: remote.xp, completedLessons: remote.completed_lessons as string[], masteredModules: remote.mastered_modules as string[], badges: remote.badges as string[], reviewDue: remote.review_due as string[] };
+      const merged: ProgressState = { ...read(), name: remote.learner_name, guide: remote.avatar_id, xp: remote.xp, completedLessons: remote.completed_lessons as string[], masteredModules: remote.mastered_modules as string[], badges: remote.badges as string[], reviewDue: remote.review_due as string[], rhythmDays: remote.activity_history as string[] };
       setState(merged); localStorage.setItem(KEY, JSON.stringify(merged));
     });
   }, []);
@@ -70,7 +70,7 @@ export function useProgress() {
     if (!hydrated) return;
     const timer = window.setTimeout(() => { void supabase.auth.getUser().then(({ data }) => {
       if (!data.user) return;
-      void supabase.from("learner_progress").upsert({ user_id: data.user.id, learner_name: state.name, avatar_id: state.guide, xp: state.xp, completed_lessons: state.completedLessons, mastered_modules: state.masteredModules, badges: state.badges, review_due: state.reviewDue, updated_at: new Date().toISOString() }, { onConflict: "user_id" });
+      void supabase.from("learner_progress").upsert({ user_id: data.user.id, learner_name: state.name, avatar_id: state.guide, xp: state.xp, completed_lessons: state.completedLessons, mastered_modules: state.masteredModules, badges: state.badges, review_due: state.reviewDue, activity_history: state.rhythmDays, updated_at: new Date().toISOString() }, { onConflict: "user_id" });
     }); }, 600);
     return () => window.clearTimeout(timer);
   }, [hydrated, state]);
@@ -140,6 +140,10 @@ export function useProgress() {
       /* noop */
     }
     setState(defaultProgress);
+    void supabase.auth.getUser().then(({ data }) => {
+      if (!data.user) return;
+      void supabase.from("learner_progress").upsert({ user_id: data.user.id, learner_name: defaultProgress.name, avatar_id: defaultProgress.guide, xp: 0, completed_lessons: [], mastered_modules: [], badges: [], review_due: [], activity_history: [], performance: {}, active_module_id: null, updated_at: new Date().toISOString() }, { onConflict: "user_id" });
+    });
   }, []);
 
   return { state, hydrated, update, completeLesson, masterModule, reset };

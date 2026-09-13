@@ -10,7 +10,7 @@ import cultureArt from "@/assets/illustrations/track-culture.jpg";
 export const Route = createFileRoute("/kid/tracks")({
   head: () => ({
     meta: [
-      { title: "Choose Your Adventure Path — Nepali Kids" },
+      { title: "Choose Your Adventure Path. Nepali Kids" },
       {
         name: "description",
         content:

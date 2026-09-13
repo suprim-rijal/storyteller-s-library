@@ -11,7 +11,7 @@ export const Route = createFileRoute("/kid/module/$moduleId")({
     const title = mod ? `${mod.code} ${mod.title}` : "Module";
     return {
       meta: [
-        { title: `${title} — Nepali Kids` },
+        { title: `${title}. Nepali Kids` },
         { name: "description", content: mod?.goal ?? "Module lobby with lessons, review and quest." },
         { property: "og:title", content: title },
         { property: "og:description", content: mod?.goal ?? "Module lobby." },

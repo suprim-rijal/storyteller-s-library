@@ -6,12 +6,12 @@ import yak from "@/assets/illustrations/yak-mascot.png";
 export const Route = createFileRoute("/kid/ready")({
   head: () => ({
     meta: [
-      { title: "You're ready — Nepali Kids" },
+      { title: "You're ready. Nepali Kids" },
       {
         name: "description",
         content: "Setup is complete. Start with the first language module or explore Nepal first.",
       },
-      { property: "og:title", content: "You're ready — Nepali Kids" },
+      { property: "og:title", content: "You're ready. Nepali Kids" },
       { property: "og:description", content: "The handoff screen at the end of setup." },
     ],
   }),

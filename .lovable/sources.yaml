@@ -2,5 +2,5 @@ tokens:
     - file: src/styles.css
       operation: css-variables
 components:
-    - file: src/design-system/nepali-kids/index.ts
+    - file: src/index.ts
       operation: ts-named-exports

@@ -10,7 +10,7 @@ export const Route = createFileRoute("/kid/reward/$rewardId")({
     const title = b ? `${b.title} unlocked` : "Reward";
     return {
       meta: [
-        { title: `${title} — Nepali Kids` },
+        { title: `${title}. Nepali Kids` },
         {
           name: "description",
           content:
@@ -43,7 +43,7 @@ function Reward() {
           <h1 className="mt-3 font-display text-3xl font-extrabold">{badge.title}</h1>
           <p className="mt-3 text-ink-soft">{badge.rule}</p>
           <p className="mt-4 text-sm text-ink-soft">
-            You earned this by what you did — not by luck, not by speed, and not by spending
+            You earned this by what you did. not by luck, not by speed, and not by spending
             anything. It stays yours forever.
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">

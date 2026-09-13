@@ -7,10 +7,10 @@ import { moduleProgress, useProgress } from "@/lib/progress";
 export const Route = createFileRoute("/kid/module/$moduleId/review")({
   head: ({ params }) => {
     const mod = getModule(params.moduleId);
-    const title = mod ? `Readiness review — ${mod.title}` : "Readiness review";
+    const title = mod ? `Readiness review. ${mod.title}` : "Readiness review";
     return {
       meta: [
-        { title: `${title} — Nepali Kids` },
+        { title: `${title}. Nepali Kids` },
         {
           name: "description",
           content:

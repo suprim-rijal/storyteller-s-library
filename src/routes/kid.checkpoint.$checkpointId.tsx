@@ -7,13 +7,13 @@ import { bridges, getChapter, getTrackOfChapter } from "@/data/curriculum";
 export const Route = createFileRoute("/kid/checkpoint/$checkpointId")({
   head: ({ params }) => ({
     meta: [
-      { title: `Checkpoint ${params.checkpointId} — Nepali Kids` },
+      { title: `Checkpoint ${params.checkpointId}. Nepali Kids` },
       {
         name: "description",
         content:
           "A 12–20 minute story mission that mixes a chapter's modules, or an optional bridge between the two tracks.",
       },
-      { property: "og:title", content: "Checkpoint — Nepali Kids" },
+      { property: "og:title", content: "Checkpoint. Nepali Kids" },
       {
         property: "og:description",
         content: "Chapter checkpoints and optional cross-track bridge adventures.",
