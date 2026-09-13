@@ -8,7 +8,7 @@ import { joinClassroomByCode } from "@/lib/family.functions";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/kid/class")({
-  head: () => ({ meta: [{ title: "My Classroom | RootBridge" }, { name: "description", content: "Join a teacher's moderated RootBridge classroom with a six-character code." }] }),
+  head: () => ({ meta: [{ title: "My Classroom | RootBridge" }, { name: "description", content: "Join a teacher's moderated RootBridge classroom with a six-character code." }, { property: "og:title", content: "My Classroom | RootBridge" }, { property: "og:description", content: "Join a safe, teacher-moderated RootBridge classroom." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
   component: KidClass,
 });
 

@@ -12,10 +12,10 @@ export const Route = createFileRoute("/kid/me")({
       {
         name: "description",
         content:
-          "Your name, guide, theme, romanization and calm mode. plus your level and rhythm days.",
+          "Your name, guide, romanization and calm mode, plus your level and rhythm days.",
       },
       { property: "og:title", content: "Me. Nepali Kids" },
-      { property: "og:description", content: "Avatar, theme and learning-pace settings." },
+      { property: "og:description", content: "Avatar, reading aids and learning-pace settings." },
     ],
   }),
   component: Me,
