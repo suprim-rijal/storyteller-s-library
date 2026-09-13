@@ -13,6 +13,7 @@ export function LessonEngine({ exercises, accent, romanization = true, quiet, re
   const [selected, setSelected] = useState<number | null>(null);
   const [typed, setTyped] = useState("");
   const [echoDone, setEchoDone] = useState(false);
+  const [echoTries, setEchoTries] = useState(0);
   const [hint, setHint] = useState(0);
   const [flowers, setFlowers] = useState(0);
   const [hintsUsed, setHintsUsed] = useState(0);
