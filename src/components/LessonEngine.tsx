@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { AudioLines, Keyboard, Lightbulb, Pause, Play, RotateCcw } from "lucide-react";
 import { Badge, Button, Card, cn } from "@/design-system/nepali-kids";
+import { loadVoices, speak as speakText, speechSupported, stopSpeaking } from "@/lib/speech";
 import type { Exercise } from "@/lib/exercises";
 
 type Scores = { accuracy: number; independence: number; matraPlacement: number; strokeOrder: number; retries: number };
