@@ -61,7 +61,8 @@ export function LessonEngine({ exercises, accent, romanization = true, quiet, re
   };
   const pick = (i: number) => { setSelected(i); setAttempts((n) => n + 1); if (ex.options[i]?.np === ex.target.np) markSolved(); else setScores((s) => ({ ...s, retries: s.retries + 1 })); };
   const submitTyped = () => { setAttempts((n) => n + 1); if (typed.trim() === ex.target.np) markSolved(); else setScores((s) => ({ ...s, retries: s.retries + 1 })); };
-  const next = () => { if (last) return onFinish({ flowers, hintsUsed, scores }); setStep((n) => n + 1); setSelected(null); setTyped(""); setEchoDone(false); setHint(0); setAttempts(0); stop(); };
+  const next = () => { if (last) return onFinish({ flowers, hintsUsed, scores }); setStep((n) => n + 1); setSelected(null); setTyped(""); setEchoDone(false); setEchoTries(0); setHint(0); setAttempts(0); stop(); };
+  const onSpoken = (matched: boolean) => { setEchoTries((n) => n + 1); setAttempts((n) => n + 1); if (matched) { setEchoDone(true); markSolved(); } else setScores((s) => ({ ...s, retries: s.retries + 1 })); };
   const hintText = ["Replay the model and listen for the first sound.", `Look closely at: ${ex.options.slice(0, 2).map((o) => o.np).join(" / ")}`, `The word sounds like “${ex.target.rom}”.`, `Model answer: ${ex.target.np}, ${ex.target.rom}, ${ex.target.en}.`];
 
   return <div className="mx-auto max-w-3xl">
