@@ -66,7 +66,7 @@ function ModuleLobby() {
           ) : null}
         </Card>
 
-        <div className="mt-6 grid gap-6 lg:grid-cols-[1.4fr_1fr]">
+        <div className="mt-6">
           <div className="grid gap-3">
             {mod.lessons.map((lesson, i) => {
               const done = state.completedLessons.includes(lesson.id);
@@ -102,11 +102,6 @@ function ModuleLobby() {
                 </p>
               </div>
               <div className="ml-auto flex gap-2">
-                <Link to="/kid/module/$moduleId/review" params={{ moduleId: mod.id }}>
-                  <Button variant="outline" size="sm">
-                    Readiness review
-                  </Button>
-                </Link>
                 <Link to="/kid/module/$moduleId/test" params={{ moduleId: mod.id }}>
                   <Button variant="sun" size="sm" disabled={!testReady}>
                     {testReady ? "Start quest →" : "Finish the lessons first"}
@@ -115,37 +110,6 @@ function ModuleLobby() {
               </div>
             </Card>
           </div>
-
-          <aside className="grid content-start gap-4">
-            <Card className="p-5">
-              <h2 className="flex items-center gap-2 font-display text-lg font-extrabold">
-                <Sparkles size={18} className="text-language" /> Skills in this module
-              </h2>
-              <ul className="mt-3 flex flex-wrap gap-2">
-                {mod.skills.map((s) => (
-                  <li key={s}>
-                    <Badge tone="language">{s}</Badge>
-                  </li>
-                ))}
-              </ul>
-            </Card>
-
-            <Card className="p-5">
-              <h2 className="font-display text-lg font-extrabold">Target items</h2>
-              <ul className="mt-3 space-y-2">
-                {mod.items.map((v, i) => (
-                  <li key={v.np + i} className="rounded-2xl bg-canvas px-3 py-2 text-sm">
-                    <span lang="ne" className="font-display text-lg font-extrabold">
-                      {v.np}
-                    </span>
-                    <span className="ml-2 text-ink-soft">
-                      {v.rom} · {v.en}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </Card>
-          </aside>
         </div>
       </main>
     </div>

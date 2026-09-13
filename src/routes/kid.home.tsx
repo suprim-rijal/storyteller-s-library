@@ -166,26 +166,6 @@ function KidHome() {
         </div>
 
         <aside className="flex flex-col gap-5">
-          <Card className="p-5">
-            <div className="flex items-center gap-2">
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-sun-soft text-sun">
-                <Sprout size={18} />
-              </span>
-              <h3 className="font-display text-lg font-extrabold">Practice Garden</h3>
-            </div>
-            <p className="mt-3 text-sm text-ink-soft">
-              Your hard-earned lesson seeds are waiting to turn into vibrant blossoms.
-            </p>
-            <p className="mt-3 flex items-center gap-2 text-sm font-bold">
-              <span className="font-display text-2xl text-sun">{due}</span> review seeds ready to
-              grow
-            </p>
-            <Link to="/kid/practice" className="mt-4 block">
-              <Button variant="sun" fullWidth className="bg-sun-soft text-sun hover:bg-sun-soft/70">
-                Water My Garden →
-              </Button>
-            </Link>
-          </Card>
 
           <Card className="p-5">
             <h3 className="font-display text-lg font-extrabold">Weekly Harmony</h3>
