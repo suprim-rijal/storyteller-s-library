@@ -8,13 +8,13 @@ import yak from "@/assets/illustrations/yak-mascot.png";
 export const Route = createFileRoute("/kid/home")({
   head: () => ({
     meta: [
-      { title: "Journey — Nepali Kids" },
+      { title: "Learning Course | RootBridge" },
       {
         name: "description",
         content:
           "Your learning hub: the next lesson, language and culture progress, the Practice Garden and your weekly rhythm.",
       },
-      { property: "og:title", content: "Journey — Nepali Kids" },
+      { property: "og:title", content: "Learning Course | RootBridge" },
       {
         property: "og:description",
         content: "The child's daily hub for Nepali language and culture learning.",
@@ -75,7 +75,7 @@ function KidHome() {
               <p className="mt-2 text-sm text-ink-soft">
                 {due > 0
                   ? `Yaju is packing our bags. ${due} review seed${due === 1 ? "" : "s"} are waiting for warm mountain rain.`
-                  : "Yaju is packing our bags. Every seed is watered — a fresh lesson is the perfect next step."}
+                  : "Yaju is packing our bags. Every seed is watered. A fresh lesson is the perfect next step."}
               </p>
             </div>
           </Card>
@@ -190,8 +190,7 @@ function KidHome() {
           <Card className="p-5">
             <h3 className="font-display text-lg font-extrabold">Weekly Harmony</h3>
             <p className="mt-2 text-sm text-ink-soft">
-              You learned on {learnedDays} day{learnedDays === 1 ? "" : "s"} this week. No stress —
-              play at your mountain pace.
+              You learned on {learnedDays} day{learnedDays === 1 ? "" : "s"} this week. Play at your mountain pace.
             </p>
             <ul className="mt-4 flex justify-between">
               {days.map((date, i) => {
@@ -221,7 +220,7 @@ function KidHome() {
               <div>
                 <h3 className="font-display font-extrabold text-grow">Try Another Way</h3>
                 <p className="mt-1 text-sm text-ink-soft">
-                  Earned by finding a second route to an answer — never by making mistakes.
+                  Earned by finding a second route to an answer, never by making mistakes.
                 </p>
               </div>
             </Card>

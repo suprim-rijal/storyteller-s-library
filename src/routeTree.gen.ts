@@ -18,6 +18,7 @@ import { Route as KidPracticeRouteImport } from './routes/kid.practice'
 import { Route as KidMeRouteImport } from './routes/kid.me'
 import { Route as KidHomeRouteImport } from './routes/kid.home'
 import { Route as KidClassRouteImport } from './routes/kid.class'
+import { Route as AdultRecoverRouteImport } from './routes/adult.recover'
 import { Route as AdultDashboardRouteImport } from './routes/adult.dashboard'
 import { Route as AdultConsentRouteImport } from './routes/adult.consent'
 import { Route as KidSetupThemeRouteImport } from './routes/kid.setup.theme'
@@ -78,6 +79,11 @@ const KidHomeRoute = KidHomeRouteImport.update({
 const KidClassRoute = KidClassRouteImport.update({
   id: '/kid/class',
   path: '/kid/class',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdultRecoverRoute = AdultRecoverRouteImport.update({
+  id: '/adult/recover',
+  path: '/adult/recover',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdultDashboardRoute = AdultDashboardRouteImport.update({
@@ -168,6 +174,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/adult/consent': typeof AdultConsentRoute
   '/adult/dashboard': typeof AdultDashboardRoute
+  '/adult/recover': typeof AdultRecoverRoute
   '/kid/class': typeof KidClassRoute
   '/kid/home': typeof KidHomeRoute
   '/kid/me': typeof KidMeRoute
@@ -195,6 +202,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/adult/consent': typeof AdultConsentRoute
   '/adult/dashboard': typeof AdultDashboardRoute
+  '/adult/recover': typeof AdultRecoverRoute
   '/kid/class': typeof KidClassRoute
   '/kid/home': typeof KidHomeRoute
   '/kid/me': typeof KidMeRoute
@@ -223,6 +231,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/adult/consent': typeof AdultConsentRoute
   '/adult/dashboard': typeof AdultDashboardRoute
+  '/adult/recover': typeof AdultRecoverRoute
   '/kid/class': typeof KidClassRoute
   '/kid/home': typeof KidHomeRoute
   '/kid/me': typeof KidMeRoute
@@ -252,6 +261,7 @@ export interface FileRouteTypes {
     | '/'
     | '/adult/consent'
     | '/adult/dashboard'
+    | '/adult/recover'
     | '/kid/class'
     | '/kid/home'
     | '/kid/me'
@@ -279,6 +289,7 @@ export interface FileRouteTypes {
     | '/'
     | '/adult/consent'
     | '/adult/dashboard'
+    | '/adult/recover'
     | '/kid/class'
     | '/kid/home'
     | '/kid/me'
@@ -306,6 +317,7 @@ export interface FileRouteTypes {
     | '/'
     | '/adult/consent'
     | '/adult/dashboard'
+    | '/adult/recover'
     | '/kid/class'
     | '/kid/home'
     | '/kid/me'
@@ -334,6 +346,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdultConsentRoute: typeof AdultConsentRoute
   AdultDashboardRoute: typeof AdultDashboardRoute
+  AdultRecoverRoute: typeof AdultRecoverRoute
   KidClassRoute: typeof KidClassRoute
   KidHomeRoute: typeof KidHomeRoute
   KidMeRoute: typeof KidMeRoute
@@ -418,6 +431,13 @@ declare module '@tanstack/react-router' {
       path: '/kid/class'
       fullPath: '/kid/class'
       preLoaderRoute: typeof KidClassRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/adult/recover': {
+      id: '/adult/recover'
+      path: '/adult/recover'
+      fullPath: '/adult/recover'
+      preLoaderRoute: typeof AdultRecoverRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/adult/dashboard': {
@@ -554,6 +574,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdultConsentRoute: AdultConsentRoute,
   AdultDashboardRoute: AdultDashboardRoute,
+  AdultRecoverRoute: AdultRecoverRoute,
   KidClassRoute: KidClassRoute,
   KidHomeRoute: KidHomeRoute,
   KidMeRoute: KidMeRoute,
