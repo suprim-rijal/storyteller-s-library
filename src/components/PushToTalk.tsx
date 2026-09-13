@@ -1,27 +1,65 @@
 import { useEffect, useRef, useState } from "react";
-import { Mic, MicOff, Square } from "lucide-react";
+import { Loader2, Mic, MicOff, Square } from "lucide-react";
 import { Button, cn } from "@/design-system/nepali-kids";
 
 interface Props {
-  /** Called when the child finishes a try. Speaking is never scored or blocked. */
-  onSpoke: () => void;
+  /** The word the child should say. */
+  target: { np: string; rom: string };
+  /** Called after every try with whether the spoken word matched the target. */
+  onResult: (matched: boolean) => void;
   label?: string;
 }
 
 const BARS = 12;
 
+const stripDeva = (value: string) => value.replace(/[^\u0900-\u097F]/g, "");
+const stripLatin = (value: string) => value.toLowerCase().replace(/[^a-z]/g, "");
+
+function distance(a: string, b: string) {
+  const rows = Array.from({ length: a.length + 1 }, (_, i) => [i, ...Array<number>(b.length).fill(0)]);
+  for (let j = 0; j <= b.length; j += 1) rows[0]![j] = j;
+  for (let i = 1; i <= a.length; i += 1) {
+    for (let j = 1; j <= b.length; j += 1) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      rows[i]![j] = Math.min(rows[i - 1]![j]! + 1, rows[i]![j - 1]! + 1, rows[i - 1]![j - 1]! + cost);
+    }
+  }
+  return rows[a.length]![b.length]!;
+}
+
+/** A near match counts, so a small accent difference never blocks a correct answer. */
+function isMatch(said: string, target: { np: string; rom: string }) {
+  const deva = stripDeva(said);
+  const wantDeva = stripDeva(target.np);
+  if (deva && wantDeva) {
+    if (deva.includes(wantDeva)) return true;
+    if (distance(deva, wantDeva) <= 1) return true;
+  }
+  const latin = stripLatin(said);
+  const wantLatin = stripLatin(target.rom);
+  if (latin && wantLatin) {
+    if (latin.includes(wantLatin)) return true;
+    if (distance(latin, wantLatin) <= Math.max(1, Math.floor(wantLatin.length / 4))) return true;
+  }
+  return false;
+}
+
 /**
- * Push-to-talk practice mic. It shows a live level meter while the child speaks
- * and always lets them continue, with or without a working microphone.
+ * Push-to-talk practice mic. It shows a live level meter while the child speaks,
+ * then checks the recording against the target word and says whether it matched.
  */
-export function PushToTalk({ onSpoke, label = "Hold to speak" }: Props) {
+export function PushToTalk({ target, onResult, label = "Hold to speak" }: Props) {
   const [recording, setRecording] = useState(false);
+  const [checking, setChecking] = useState(false);
   const [level, setLevel] = useState(0);
   const [note, setNote] = useState("");
-  const [tried, setTried] = useState(false);
+  const [heard, setHeard] = useState("");
+  const [status, setStatus] = useState<"idle" | "match" | "miss">("idle");
   const stream = useRef<MediaStream | null>(null);
   const ctx = useRef<AudioContext | null>(null);
   const raf = useRef<number | null>(null);
+  const recorder = useRef<MediaRecorder | null>(null);
+  const chunks = useRef<Blob[]>([]);
 
   const cleanup = () => {
     if (raf.current) cancelAnimationFrame(raf.current);
@@ -34,9 +72,34 @@ export function PushToTalk({ onSpoke, label = "Hold to speak" }: Props) {
   };
   useEffect(() => cleanup, []);
 
+  const check = async (blob: Blob) => {
+    setChecking(true);
+    try {
+      const buffer = new Uint8Array(await blob.arrayBuffer());
+      let binary = "";
+      for (const byte of buffer) binary += String.fromCharCode(byte);
+      const { transcribeSpeech } = await import("@/lib/transcribe.functions");
+      const result = await transcribeSpeech({
+        data: { audio: btoa(binary), mimeType: blob.type || "audio/webm" },
+      });
+      const said = result.text;
+      setHeard(said);
+      const matched = isMatch(said, target);
+      setStatus(matched ? "match" : "miss");
+      onResult(matched);
+    } catch {
+      setNote("We could not check the sound this time. Try once more, or use the no microphone button.");
+      setStatus("idle");
+    } finally {
+      setChecking(false);
+    }
+  };
+
   const start = async () => {
-    if (recording) return;
+    if (recording || checking) return;
     setNote("");
+    setHeard("");
+    setStatus("idle");
     if (!navigator.mediaDevices?.getUserMedia) {
       setNote("This device has no microphone we can use. Say the word out loud, then tap “I said it”.");
       return;
@@ -58,6 +121,19 @@ export function PushToTalk({ onSpoke, label = "Hold to speak" }: Props) {
         raf.current = requestAnimationFrame(tick);
       };
       tick();
+
+      chunks.current = [];
+      const rec = new MediaRecorder(media);
+      recorder.current = rec;
+      rec.ondataavailable = (event) => {
+        if (event.data.size) chunks.current.push(event.data);
+      };
+      rec.onstop = () => {
+        const blob = new Blob(chunks.current, { type: rec.mimeType || "audio/webm" });
+        if (blob.size > 800) void check(blob);
+        else setNote("That was very short. Hold the button while you say the whole word.");
+      };
+      rec.start();
       setRecording(true);
     } catch {
       setNote("Microphone access is off. That is fine. Say the word out loud, then tap “I said it”.");
@@ -65,12 +141,10 @@ export function PushToTalk({ onSpoke, label = "Hold to speak" }: Props) {
   };
 
   const stop = () => {
+    if (recorder.current && recorder.current.state !== "inactive") recorder.current.stop();
+    recorder.current = null;
     cleanup();
-    if (recording) {
-      setRecording(false);
-      setTried(true);
-      onSpoke();
-    }
+    if (recording) setRecording(false);
   };
 
   return (
@@ -78,6 +152,7 @@ export function PushToTalk({ onSpoke, label = "Hold to speak" }: Props) {
       <div className="flex flex-wrap items-center gap-3">
         <Button
           variant={recording ? "culture" : "grow"}
+          disabled={checking}
           onMouseDown={() => void start()}
           onMouseUp={stop}
           onMouseLeave={() => recording && stop()}
@@ -97,12 +172,12 @@ export function PushToTalk({ onSpoke, label = "Hold to speak" }: Props) {
           }}
           aria-pressed={recording}
         >
-          {recording ? <Square size={18} /> : <Mic size={18} />}
-          {recording ? "Listening. Release to finish" : label}
+          {checking ? <Loader2 size={18} className="animate-spin" /> : recording ? <Square size={18} /> : <Mic size={18} />}
+          {checking ? "Checking your word" : recording ? "Listening. Release to finish" : label}
         </Button>
-        <Button variant="outline" size="sm" onClick={() => { setTried(true); onSpoke(); }}>
+        <Button variant="outline" size="sm" disabled={checking} onClick={() => { setStatus("idle"); setHeard(""); onResult(false); }}>
           <MicOff size={16} />
-          I said it without the mic
+          I have no microphone
         </Button>
       </div>
 
@@ -112,10 +187,7 @@ export function PushToTalk({ onSpoke, label = "Hold to speak" }: Props) {
           return (
             <span
               key={i}
-              className={cn(
-                "w-full rounded-full transition-[height] duration-75",
-                active ? "bg-grow" : "bg-line",
-              )}
+              className={cn("w-full rounded-full transition-[height] duration-75", active ? "bg-grow" : "bg-line")}
               style={{ height: active ? `${18 + Math.min(level, 1) * 22}px` : "6px" }}
             />
           );
@@ -123,11 +195,15 @@ export function PushToTalk({ onSpoke, label = "Hold to speak" }: Props) {
       </div>
 
       <p aria-live="polite" className="mt-2 text-xs text-ink-soft">
-        {recording
-          ? "We can hear you. Speak clearly and release when you are done."
-          : tried
-            ? "Nice try. Speaking is never scored, so you can keep going."
-            : "Hold the button and say the word. Nothing is recorded or graded."}
+        {checking
+          ? "Listening to your recording."
+          : recording
+            ? "We can hear you. Speak clearly and release when you are done."
+            : status === "match"
+              ? `That matched ${target.np}. Well said.`
+              : status === "miss"
+                ? `Not quite yet. We heard “${heard || "nothing clear"}”. Replay the model and try again.`
+                : `Hold the button and say ${target.np} (${target.rom}).`}
       </p>
       {note ? <p className="mt-2 rounded-2xl bg-canvas p-3 text-xs text-ink-soft">{note}</p> : null}
     </div>

@@ -13,6 +13,7 @@ export function LessonEngine({ exercises, accent, romanization = true, quiet, re
   const [selected, setSelected] = useState<number | null>(null);
   const [typed, setTyped] = useState("");
   const [echoDone, setEchoDone] = useState(false);
+  const [echoTries, setEchoTries] = useState(0);
   const [hint, setHint] = useState(0);
   const [flowers, setFlowers] = useState(0);
   const [hintsUsed, setHintsUsed] = useState(0);
@@ -60,7 +61,8 @@ export function LessonEngine({ exercises, accent, romanization = true, quiet, re
   };
   const pick = (i: number) => { setSelected(i); setAttempts((n) => n + 1); if (ex.options[i]?.np === ex.target.np) markSolved(); else setScores((s) => ({ ...s, retries: s.retries + 1 })); };
   const submitTyped = () => { setAttempts((n) => n + 1); if (typed.trim() === ex.target.np) markSolved(); else setScores((s) => ({ ...s, retries: s.retries + 1 })); };
-  const next = () => { if (last) return onFinish({ flowers, hintsUsed, scores }); setStep((n) => n + 1); setSelected(null); setTyped(""); setEchoDone(false); setHint(0); setAttempts(0); stop(); };
+  const next = () => { if (last) return onFinish({ flowers, hintsUsed, scores }); setStep((n) => n + 1); setSelected(null); setTyped(""); setEchoDone(false); setEchoTries(0); setHint(0); setAttempts(0); stop(); };
+  const onSpoken = (matched: boolean) => { setEchoTries((n) => n + 1); setAttempts((n) => n + 1); if (matched) { setEchoDone(true); markSolved(); } else setScores((s) => ({ ...s, retries: s.retries + 1 })); };
   const hintText = ["Replay the model and listen for the first sound.", `Look closely at: ${ex.options.slice(0, 2).map((o) => o.np).join(" / ")}`, `The word sounds like “${ex.target.rom}”.`, `Model answer: ${ex.target.np}, ${ex.target.rom}, ${ex.target.en}.`];
 
   return <div className="mx-auto max-w-3xl">
@@ -84,7 +86,7 @@ export function LessonEngine({ exercises, accent, romanization = true, quiet, re
       {audioNote ? <p className="mt-2 rounded-2xl bg-canvas p-3 text-xs text-ink-soft">{audioNote}{listening ? ` The word is ${ex.target.np} (${ex.target.rom}).` : ""}</p> : null}
 
       {ex.kind === "typing" ? <div className="mt-5 flex gap-3"><input lang="ne" value={typed} onChange={(e) => setTyped(e.target.value)} onKeyDown={(e) => e.key === "Enter" && submitTyped()} className="h-14 min-w-0 flex-1 rounded-2xl border-2 border-line px-4 text-xl outline-none focus:border-language" aria-label="Type your answer" /><Button onClick={submitTyped}>Check</Button></div>
-        : ex.kind === "echo" ? <div className="mt-5"><PushToTalk onSpoke={() => { setEchoDone(true); markSolved(); }} label={`Hold to say ${ex.target.rom}`} /></div>
+        : ex.kind === "echo" ? <div className="mt-5"><PushToTalk target={ex.target} onResult={onSpoken} label={`Hold to say ${ex.target.rom}`} />{!echoDone && echoTries >= 3 ? <div className="mt-3 flex flex-wrap items-center gap-3"><Button variant="outline" size="sm" onClick={next}>Move on for now</Button><span className="text-xs text-ink-soft">You can come back to this word later.</span></div> : null}</div>
         : <div className="mt-5 grid gap-3 sm:grid-cols-2">{ex.options.map((o, i) => { const isSel = selected === i; const right = o.np === ex.target.np; return <div key={o.np + i} className={cn("flex items-center gap-2 rounded-card border-2 bg-surface p-3", isSel && !quiet && right && "border-grow bg-grow-soft", isSel && !quiet && !right && "border-culture bg-culture-soft", isSel && quiet && "border-language bg-language-soft", !isSel && "border-line")}>
             <button type="button" onClick={() => pick(i)} className="min-h-11 min-w-0 flex-1 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-language">
               <span className="mr-2 text-xs text-ink-soft">{i + 1}</span>
