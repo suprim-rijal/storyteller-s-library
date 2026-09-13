@@ -5,7 +5,7 @@ import {
   Button, Dialog, DialogContent, DialogDescription, DialogTitle,
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, cn,
 } from "@/design-system/nepali-kids";
-import { hasParentPin, languageNames, saveParentPin, useUiLanguage, verifyParentPin } from "@/lib/preferences";
+import { hasParentPin, languageNames, saveParentPin, unlockParentMode, useUiLanguage, verifyParentPin } from "@/lib/preferences";
 
 const tabs = [
   { to: "/kid/home", label: "Course", icon: BookOpen },
@@ -32,6 +32,7 @@ export function KidNav() {
     } else if (!verifyParentPin(pin)) {
       return setError("That PIN is not right. Try again or use recovery.");
     }
+    unlockParentMode();
     setParentOpen(false);
     navigate({ to: "/adult/dashboard" });
   };

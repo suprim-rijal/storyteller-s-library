@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Badge, Button, Card, ProgressBar } from "@/design-system/nepali-kids";
 import { KidNav } from "@/components/KidNav";
-import { ageBands, themes } from "@/data/curriculum";
+import { ageBands } from "@/data/curriculum";
 import { levelFromXp, useProgress } from "@/lib/progress";
 import yak from "@/assets/illustrations/yak-mascot.png";
 
@@ -22,7 +22,7 @@ export const Route = createFileRoute("/kid/me")({
 });
 
 function Me() {
-  const { state, update, reset } = useProgress();
+  const { state, update } = useProgress();
   const level = levelFromXp(state.xp);
   const nextLevelXp = Math.round(100 * Math.pow(level + 1, 1.35));
   const band = ageBands.find((b) => b.id === state.ageBand) ?? ageBands[1]!;
@@ -31,7 +31,7 @@ function Me() {
     <div className="min-h-screen">
       <KidNav />
       <main className="mx-auto max-w-4xl px-4 py-10 lg:px-8">
-        <h1 className="font-display text-3xl font-extrabold">Me</h1>
+        <h1 className="font-display text-3xl font-extrabold">My profile</h1>
 
         <Card accent="language" bold className="mt-6 flex flex-wrap items-center gap-5 p-6">
           <img
@@ -65,21 +65,12 @@ function Me() {
 
         <div className="mt-6 grid gap-5 sm:grid-cols-2">
           <Card className="p-5">
-            <h2 className="font-display text-lg font-extrabold">My theme</h2>
-            <div className="mt-3 grid gap-2">
-              {themes.map((t) => (
-                <button
-                  key={t.id}
-                  type="button"
-                  onClick={() => update({ theme: t.id })}
-                  aria-pressed={state.theme === t.id}
-                  className={
-                    "rounded-2xl border-2 p-3 text-left text-sm transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-language " +
-                    (state.theme === t.id ? "border-culture bg-culture-soft" : "border-line")
-                  }
-                >
-                  <span className="block font-bold">{t.name}</span>
-                  <span className="block text-xs text-ink-soft">{t.desc}</span>
+            <h2 className="font-display text-lg font-extrabold">Choose my guide</h2>
+            <p className="mt-1 text-sm text-ink-soft">Pick a friendly learning companion.</p>
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              {[{ id: "yaju", icon: "🐃", name: "Yaju" }, { id: "gainthali", icon: "🐦", name: "Gainthali" }, { id: "bhalu", icon: "🐼", name: "Bhalu" }, { id: "hattisar", icon: "🐘", name: "Hatti" }].map((guide) => (
+                <button key={guide.id} type="button" onClick={() => update({ guide: guide.id })} aria-pressed={state.guide === guide.id} className={`rounded-2xl border-2 p-4 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-language ${state.guide === guide.id ? "border-language bg-language-soft" : "border-line"}`}>
+                  <span className="block text-3xl" aria-hidden="true">{guide.icon}</span><span className="mt-1 block text-sm font-bold">{guide.name}</span>
                 </button>
               ))}
             </div>
@@ -115,9 +106,8 @@ function Me() {
             <Card className="p-5">
               <h2 className="font-display text-lg font-extrabold">My rhythm</h2>
               <p className="mt-2 text-sm text-ink-soft">
-                You have learned on {state.rhythmDays.length} day
-                {state.rhythmDays.length === 1 ? "" : "s"} so far. Rest days are part of the plan —
-                nothing is ever lost.
+                 You have learned on {state.rhythmDays.length} day
+                {state.rhythmDays.length === 1 ? "" : "s"} so far. Rest days are part of the plan.
               </p>
               <div className="mt-3 flex flex-wrap gap-2">
                 <Badge tone="grow">{state.completedLessons.length} lessons experienced</Badge>
@@ -125,22 +115,7 @@ function Me() {
               </div>
             </Card>
 
-            <Card className="p-5">
-              <h2 className="font-display text-lg font-extrabold">Start again</h2>
-              <p className="mt-2 text-sm text-ink-soft">
-                This clears the practice memory saved on this device only.
-              </p>
-              <div className="mt-4 flex flex-wrap gap-3">
-                <Button variant="outline" size="sm" onClick={reset}>
-                  Clear my progress
-                </Button>
-                <Link to="/kid/welcome">
-                  <Button variant="quiet" size="sm">
-                    Redo setup
-                  </Button>
-                </Link>
-              </div>
-            </Card>
+            <Card className="p-5"><h2 className="font-display text-lg font-extrabold">Setup</h2><p className="mt-2 text-sm text-ink-soft">A parent can reset learning progress from the parent dashboard.</p><Link to="/kid/welcome" className="mt-4 inline-block"><Button variant="quiet" size="sm">Review setup</Button></Link></Card>
           </div>
         </div>
       </main>
