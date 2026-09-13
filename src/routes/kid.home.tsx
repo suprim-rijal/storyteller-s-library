@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { MessageCircle, Globe, Sprout, Award } from "lucide-react";
+import { MessageCircle, Globe, Award } from "lucide-react";
 import { Badge, Button, Card, ProgressBar } from "@/design-system/nepali-kids";
 import { KidNav } from "@/components/KidNav";
 import { tracks } from "@/data/curriculum";

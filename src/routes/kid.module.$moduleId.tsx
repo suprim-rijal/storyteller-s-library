@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { CheckCircle2, Circle, Sparkles } from "lucide-react";
+import { CheckCircle2, Circle } from "lucide-react";
 import { Badge, Button, Card, ProgressBar } from "@/design-system/nepali-kids";
 import { KidNav } from "@/components/KidNav";
 import { getChapterOfModule, getModule, getTrackOfChapter } from "@/data/curriculum";
