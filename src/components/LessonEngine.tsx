@@ -38,12 +38,15 @@ export function LessonEngine({ exercises, accent, romanization = true, quiet, re
   const correct = ex.kind === "typing" ? typed.trim() === ex.target.np : ex.kind === "echo" ? echoDone : chosen?.np === ex.target.np;
   const last = step === exercises.length - 1;
   const speak = (text = ex.target.np, lang = "ne-NP") => {
-    void speakText(text, {
+    setAudioNote("");
+    void speakWord(text, {
       lang,
+      slow: reducedMotion || hint > 0,
+      englishFallback: lang === "ne-NP" ? `${ex.target.rom}. It means ${ex.target.en}.` : text,
       rate: reducedMotion ? 0.75 : Math.max(0.65, 0.9 - hint * 0.06),
       onStart: () => { setPlaying(true); setAudioNote(""); },
       onEnd: () => setPlaying(false),
-      onUnavailable: () => { setPlaying(false); setAudioNote("This device has no voice for this word. Read the word and its spelling instead."); },
+      onUnavailable: () => { setPlaying(false); setAudioNote("This device cannot play sound right now. Read the word and its spelling instead."); },
     });
   };
   const stop = () => { stopSpeaking(); setPlaying(false); };
