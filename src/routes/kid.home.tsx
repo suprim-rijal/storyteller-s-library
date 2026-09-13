@@ -5,7 +5,6 @@ import { KidNav } from "@/components/KidNav";
 import { tracks } from "@/data/curriculum";
 import { trackProgress, useProgress } from "@/lib/progress";
 import yak from "@/assets/illustrations/yak-mascot.png";
-
 export const Route = createFileRoute("/kid/home")({
   head: () => ({
     meta: [

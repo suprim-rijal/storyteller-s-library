@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { CheckCircle2, Circle, Gamepad2, Sparkles } from "lucide-react";
+import { CheckCircle2, Circle, Sparkles } from "lucide-react";
 import { Badge, Button, Card, ProgressBar } from "@/design-system/nepali-kids";
 import { KidNav } from "@/components/KidNav";
 import { getChapterOfModule, getModule, getTrackOfChapter } from "@/data/curriculum";
@@ -116,7 +116,7 @@ function ModuleLobby() {
             </Card>
           </div>
 
-          <aside className="grid gap-4">
+          <aside className="grid content-start gap-4">
             <Card className="p-5">
               <h2 className="flex items-center gap-2 font-display text-lg font-extrabold">
                 <Sparkles size={18} className="text-language" /> Skills in this module
@@ -131,19 +131,6 @@ function ModuleLobby() {
             </Card>
 
             <Card className="p-5">
-              <h2 className="flex items-center gap-2 font-display text-lg font-extrabold">
-                <Gamepad2 size={18} className="text-culture" /> Games you will play
-              </h2>
-              <ul className="mt-3 flex flex-wrap gap-2">
-                {mod.mechanics.map((s) => (
-                  <li key={s}>
-                    <Badge tone="culture">{s}</Badge>
-                  </li>
-                ))}
-              </ul>
-            </Card>
-
-            <Card className="p-5">
               <h2 className="font-display text-lg font-extrabold">Target items</h2>
               <ul className="mt-3 space-y-2">
                 {mod.items.map((v, i) => (
@@ -152,7 +139,7 @@ function ModuleLobby() {
                       {v.np}
                     </span>
                     <span className="ml-2 text-ink-soft">
-                      {v.rom} — {v.en}
+                      {v.rom} · {v.en}
                     </span>
                   </li>
                 ))}
