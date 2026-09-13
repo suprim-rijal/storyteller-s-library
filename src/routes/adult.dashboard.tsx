@@ -1,7 +1,9 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { Lock } from "lucide-react";
-import { Badge, Button, Card, StatCard } from "@/design-system/nepali-kids";
+import { useEffect, useState } from "react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { BarChart3, Lock, RotateCcw } from "lucide-react";
+import { Badge, Button, Card, Dialog, DialogContent, DialogDescription, DialogTitle, StatCard, Tabs, TabsContent, TabsList, TabsTrigger } from "@/design-system/nepali-kids";
 import { trackProgress, useProgress } from "@/lib/progress";
+import { isParentModeUnlocked } from "@/lib/preferences";
 import selRoti from "@/assets/illustrations/sel-roti.jpg";
 
 export const Route = createFileRoute("/adult/dashboard")({
@@ -32,7 +34,11 @@ const milestones = [
 ] as const;
 
 function ParentPortal() {
-  const { state } = useProgress();
+  const { state, reset } = useProgress();
+  const navigate = useNavigate();
+  const [resetOpen, setResetOpen] = useState(false);
+  const [confirmText, setConfirmText] = useState("");
+  useEffect(() => { if (!isParentModeUnlocked()) navigate({ to: "/kid/home", replace: true }); }, [navigate]);
   const lp = trackProgress(state, "language");
   const cp = trackProgress(state, "culture");
   const lessons = lp.doneLessons + cp.doneLessons;
@@ -64,6 +70,9 @@ function ParentPortal() {
       </header>
 
       <main className="mx-auto max-w-6xl px-4 py-8 lg:px-8">
+        <Tabs defaultValue="overview">
+          <TabsList><TabsTrigger value="overview">Overview</TabsTrigger><TabsTrigger value="history">Progress history</TabsTrigger><TabsTrigger value="controls">Controls</TabsTrigger></TabsList>
+          <TabsContent value="overview">
         <div className="grid gap-5 lg:grid-cols-[1.4fr_1fr]">
           <div className="flex flex-col gap-5">
             <div className="grid gap-5 sm:grid-cols-3">
@@ -171,7 +180,19 @@ function ParentPortal() {
             </p>
           </Card>
         </div>
+
+          </TabsContent>
+          <TabsContent value="history">
+            <Card className="mt-5 p-6"><h2 className="flex items-center gap-2 text-xl font-extrabold"><BarChart3 className="text-language" />Learning history</h2><p className="mt-1 text-sm text-ink-soft">A calm view of activity across recent learning days.</p><div className="mt-8 flex h-48 items-end gap-3" aria-label={`${state.rhythmDays.length} active learning days`}>
+              {[35, 58, 42, 75, 51, Math.min(96, 30 + lessons * 5), Math.min(100, 24 + state.xp / 5)].map((height, i) => <div key={i} className="flex flex-1 flex-col items-center gap-2"><div className="w-full rounded-t-xl bg-language-soft" style={{ height: `${height}%` }}><div className="h-full w-full rounded-t-xl bg-language opacity-75" /></div><span className="text-xs font-bold text-ink-soft">W{i + 1}</span></div>)}
+            </div><p className="mt-5 text-sm text-ink-soft">Current module: {lp.doneLessons < lp.lessons ? "Nepali Language" : "Discover Nepal"}. {lessons} lessons completed across {state.rhythmDays.length} learning days.</p></Card>
+          </TabsContent>
+          <TabsContent value="controls">
+            <Card className="mt-5 p-6"><h2 className="text-xl font-extrabold">Parent-only controls</h2><p className="mt-2 text-sm text-ink-soft">Resetting removes this learner's local lesson history, XP, badges, and review queue.</p><Button variant="outline" className="mt-5 border-culture text-culture" onClick={() => setResetOpen(true)}><RotateCcw size={17} />Reset learning progress</Button></Card>
+          </TabsContent>
+        </Tabs>
       </main>
+      <Dialog open={resetOpen} onOpenChange={setResetOpen}><DialogContent><DialogTitle className="pr-10 text-2xl font-extrabold">Reset all progress?</DialogTitle><DialogDescription className="mt-2 text-sm text-ink-soft">This cannot be undone. Type RESET to confirm.</DialogDescription><input value={confirmText} onChange={(e) => setConfirmText(e.target.value)} className="mt-5 h-12 w-full rounded-xl border-2 border-line px-4 outline-none focus:border-culture" /><Button fullWidth variant="culture" className="mt-4" disabled={confirmText !== "RESET"} onClick={() => { reset(); setResetOpen(false); setConfirmText(""); }}>Reset progress</Button></DialogContent></Dialog>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { allModules, getModule, trackModules, type TrackId } from "@/data/curriculum";
+import { supabase } from "@/integrations/supabase/client";
 
 export interface ProgressState {
   name: string;
@@ -56,7 +57,23 @@ export function useProgress() {
   useEffect(() => {
     setState(read());
     setHydrated(true);
+    void supabase.auth.getUser().then(async ({ data }) => {
+      if (!data.user) return;
+      const { data: remote } = await supabase.from("learner_progress").select("*").eq("user_id", data.user.id).maybeSingle();
+      if (!remote) return;
+      const merged: ProgressState = { ...read(), name: remote.learner_name, guide: remote.avatar_id, xp: remote.xp, completedLessons: remote.completed_lessons as string[], masteredModules: remote.mastered_modules as string[], badges: remote.badges as string[], reviewDue: remote.review_due as string[] };
+      setState(merged); localStorage.setItem(KEY, JSON.stringify(merged));
+    });
   }, []);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    const timer = window.setTimeout(() => { void supabase.auth.getUser().then(({ data }) => {
+      if (!data.user) return;
+      void supabase.from("learner_progress").upsert({ user_id: data.user.id, learner_name: state.name, avatar_id: state.guide, xp: state.xp, completed_lessons: state.completedLessons, mastered_modules: state.masteredModules, badges: state.badges, review_due: state.reviewDue, updated_at: new Date().toISOString() }, { onConflict: "user_id" });
+    }); }, 600);
+    return () => window.clearTimeout(timer);
+  }, [hydrated, state]);
 
   const update = useCallback((patch: Partial<ProgressState>) => {
     setState((prev) => {

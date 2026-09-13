@@ -96,6 +96,7 @@ function LessonPlayer() {
             exercises={exercises}
             accent={track.id}
             romanization={state.romanization}
+            reducedMotion={state.reducedMotion}
             onFinish={({ flowers }) => {
               completeLesson(lesson.id, 20);
               setFinished({ flowers });

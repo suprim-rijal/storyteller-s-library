@@ -8,7 +8,7 @@ import { useProgress } from "@/lib/progress";
 export const Route = createFileRoute("/kid/treasures")({
   head: () => ({
     meta: [
-      { title: "Treasures — Nepali Kids" },
+      { title: "Achievements & Badges — RootBridge" },
       {
         name: "description",
         content:
@@ -23,27 +23,27 @@ export const Route = createFileRoute("/kid/treasures")({
 
 function Treasures() {
   const { state } = useProgress();
-  const earnedCount = Math.min(badges.length, state.masteredModules.length);
+  const earnedIds = new Set(state.badges);
+  state.masteredModules.forEach((_, index) => badges[index] && earnedIds.add(badges[index]!.id));
 
   return (
     <div className="min-h-screen">
       <KidNav />
       <main className="mx-auto max-w-5xl px-4 py-10 lg:px-8">
-        <h1 className="font-display text-3xl font-extrabold">Treasures</h1>
+        <h1 className="font-display text-3xl font-extrabold">Achievements &amp; Badges</h1>
         <p className="mt-2 text-ink-soft">
-          Each treasure names something you actually did. They are never random, never for sale
-          and they never disappear.
+          Every badge names something you learned, created, or kept trying. Badges are never random or for sale.
         </p>
 
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {badges.map((b, i) => {
-            const earned = i < earnedCount;
+            const earned = earnedIds.has(b.id);
             return (
               <Link key={b.id} to="/kid/reward/$rewardId" params={{ rewardId: b.id }}>
                 <Card
                   accent={earned ? "sun" : "none"}
                   bold={earned}
-                  className="h-full p-5 transition hover:-translate-y-0.5"
+                  className="h-full p-5 hover:shadow-lg"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <span

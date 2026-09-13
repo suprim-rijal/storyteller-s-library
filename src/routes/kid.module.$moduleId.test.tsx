@@ -96,6 +96,7 @@ function Quest() {
               accent={track.id}
               quiet
               romanization={state.romanization}
+          reducedMotion={state.reducedMotion}
               onFinish={setDone}
             />
           </>

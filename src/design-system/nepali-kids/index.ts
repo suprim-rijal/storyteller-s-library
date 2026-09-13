@@ -9,3 +9,7 @@ export { ProgressBar } from "./ProgressBar";
 export type { ProgressBarProps } from "./ProgressBar";
 export { StatCard } from "./StatCard";
 export type { StatCardProps } from "./StatCard";
+export { Dialog, DialogTrigger, DialogClose, DialogContent, DialogTitle, DialogDescription } from "./Dialog";
+export { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "./DropdownMenu";
+export { Tabs, TabsList, TabsTrigger, TabsContent } from "./Tabs";
+export { Progress } from "./Progress";

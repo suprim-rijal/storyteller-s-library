@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  --font-display: "Baloo 2", "Nunito", system-ui, sans-serif;
-  --font-sans: "Nunito", system-ui, -apple-system, sans-serif;
+  --font-display: "Nunito", "Noto Sans Devanagari", system-ui, sans-serif;
+  --font-sans: "Nunito", "Noto Sans Devanagari", system-ui, -apple-system, sans-serif;
 
   /* Brand */
   --color-ink: #0f2c5c;
@@ -41,4 +41,15 @@ body {
 
 @utility pulse-ring {
   animation: nk-pulse-ring 2s ease-out infinite;
+}
+
+button, a { -webkit-tap-highlight-color: transparent; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
