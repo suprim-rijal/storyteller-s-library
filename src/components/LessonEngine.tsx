@@ -21,7 +21,12 @@ export function LessonEngine({ exercises, accent, romanization = true, quiet, re
   const [solved, setSolved] = useState<boolean[]>(() => exercises.map(() => false));
   const ex = exercises[step];
 
-  useEffect(() => () => window.speechSynthesis?.cancel(), []);
+  const [audioNote, setAudioNote] = useState("");
+  useEffect(() => {
+    if (!speechSupported()) { setAudioNote("Sound is not available in this browser. Use the written word and its spelling below."); return; }
+    loadVoices().then((voices) => { if (!voices.length) setAudioNote("No voices are installed on this device, so words cannot be spoken. The written word and its spelling are always shown."); });
+    return () => stopSpeaking();
+  }, []);
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if (!ex || ex.kind === "typing" || ex.kind === "echo") return;
