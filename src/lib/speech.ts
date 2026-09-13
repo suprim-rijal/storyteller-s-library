@@ -75,4 +75,67 @@ export async function speak(text: string, options: SpeakOptions = {}) {
 
 export function stopSpeaking() {
   if (speechSupported()) window.speechSynthesis.cancel();
+  if (current) {
+    current.pause();
+    current = null;
+  }
+}
+
+let current: HTMLAudioElement | null = null;
+const clipCache = new Map<string, string>();
+
+async function hasDevanagariVoice() {
+  const voices = await loadVoices();
+  return voices.some((v) => /^(ne|hi|mr|bn)/i.test(v.lang.replace("_", "-")));
+}
+
+export interface SpeakWordOptions extends SpeakOptions {
+  slow?: boolean;
+  /** Read aloud in English when no Nepali voice can be produced. */
+  englishFallback?: string;
+}
+
+/**
+ * Plays the real Nepali word using Lovable AI. If that is unavailable, it uses a
+ * Devanagari device voice, and finally reads the English meaning aloud.
+ */
+export async function speakWord(text: string, options: SpeakWordOptions = {}) {
+  const { slow, englishFallback, onStart, onEnd, onUnavailable, ...rest } = options;
+  if (!text.trim()) {
+    onUnavailable?.();
+    return;
+  }
+  stopSpeaking();
+
+  const key = `${text}|${slow ? "slow" : "normal"}`;
+  try {
+    let src = clipCache.get(key);
+    if (!src) {
+      const { speakWithAi } = await import("./tts.functions");
+      const result = await speakWithAi({ data: { text, slow } });
+      src = `data:${result.mimeType};base64,${result.audio}`;
+      clipCache.set(key, src);
+    }
+    const audio = new Audio(src);
+    current = audio;
+    audio.onended = () => {
+      if (current === audio) current = null;
+      onEnd?.();
+    };
+    onStart?.();
+    await audio.play();
+    return;
+  } catch {
+    // Fall through to the device voice below.
+  }
+
+  if (await hasDevanagariVoice()) {
+    await speak(text, { ...rest, onStart, onEnd, onUnavailable });
+    return;
+  }
+  if (englishFallback) {
+    await speak(englishFallback, { ...rest, lang: "en-US", onStart, onEnd, onUnavailable });
+    return;
+  }
+  onUnavailable?.();
 }
