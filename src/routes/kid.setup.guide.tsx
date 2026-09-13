@@ -31,7 +31,7 @@ function GuideSetup() {
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-12">
-      <Badge tone="language">Step 1 of 3</Badge>
+      <Badge tone="language">Step 1 of 2</Badge>
       <h1 className="mt-3 font-display text-3xl font-extrabold">Who will climb with you?</h1>
       <p className="mt-2 text-ink-soft">
         Your guide cheers you on. You can change them later in “Me”.
