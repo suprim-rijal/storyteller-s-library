@@ -81,8 +81,8 @@ function Quest() {
               >
                 Collect reward →
               </Button>
-              <Link to="/kid/practice">
-                <Button variant="outline">Practise, then try again</Button>
+              <Link to="/kid/module/$moduleId" params={{ moduleId: mod.id }}>
+                <Button variant="outline">Back to the lessons</Button>
               </Link>
             </div>
           </Card>

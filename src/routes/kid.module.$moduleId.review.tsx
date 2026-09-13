@@ -89,8 +89,8 @@ function Review() {
         </div>
 
         <div className="mt-6 flex flex-wrap gap-3">
-          <Link to="/kid/practice">
-            <Button variant="grow">Do a 2-minute targeted practice →</Button>
+          <Link to="/kid/module/$moduleId" params={{ moduleId: mod.id }}>
+            <Button variant="grow">Back to the lessons →</Button>
           </Link>
           <Link to="/kid/module/$moduleId/test" params={{ moduleId: mod.id }}>
             <Button variant="outline">I'm ready for the quest</Button>
