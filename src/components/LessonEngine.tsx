@@ -42,13 +42,15 @@ export function LessonEngine({ exercises, accent, romanization = true, quiet, re
   const correct = ex.kind === "typing" ? typed.trim() === ex.target.np : ex.kind === "echo" ? echoDone : chosen?.np === ex.target.np;
   const last = step === exercises.length - 1;
   const speak = (text = ex.target.np, lang = "ne-NP") => {
-    if (!("speechSynthesis" in window)) return;
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text); utterance.lang = lang; utterance.rate = reducedMotion ? 0.75 : Math.max(0.65, 0.9 - hint * 0.06);
-    utterance.onstart = () => setPlaying(true); utterance.onend = () => setPlaying(false); utterance.onerror = () => setPlaying(false);
-    window.speechSynthesis.speak(utterance);
+    void speakText(text, {
+      lang,
+      rate: reducedMotion ? 0.75 : Math.max(0.65, 0.9 - hint * 0.06),
+      onStart: () => { setPlaying(true); setAudioNote(""); },
+      onEnd: () => setPlaying(false),
+      onUnavailable: () => { setPlaying(false); setAudioNote("This device has no voice for this word. Read the word and its spelling instead."); },
+    });
   };
-  const stop = () => { window.speechSynthesis?.cancel(); setPlaying(false); };
+  const stop = () => { stopSpeaking(); setPlaying(false); };
   const markSolved = () => {
     if (!solved[step]) {
       setFlowers((f) => f + 1); setSolved((s) => s.map((v, idx) => idx === step ? true : v));
