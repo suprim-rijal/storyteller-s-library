@@ -1,6 +1,6 @@
 framework: react
 css_framework: tailwind
-component_library: ""
+component_library: "RootBridge"
 source_type: local
 upstream_package: ""
 starter_template: custom_design_system

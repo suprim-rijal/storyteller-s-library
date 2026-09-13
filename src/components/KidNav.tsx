@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { Award, BookOpen, ChevronDown, GraduationCap, Languages, Lock, Smile, Sprout } from "lucide-react";
 import {
   Button, Dialog, DialogContent, DialogDescription, DialogTitle,
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, cn,
 } from "@/design-system/nepali-kids";
-import { hasParentPin, languageNames, saveParentPin, unlockParentMode, useUiLanguage, verifyParentPin } from "@/lib/preferences";
+import { languageNames, unlockParentMode, useUiLanguage } from "@/lib/preferences";
+import { getParentControlStatus, setParentPin, verifyParentPinCloud } from "@/lib/family.functions";
+import { supabase } from "@/integrations/supabase/client";
 
 const tabs = [
   { to: "/kid/home", label: "Course", icon: BookOpen },
@@ -22,15 +25,26 @@ export function KidNav() {
   const [pin, setPin] = useState("");
   const [confirmPin, setConfirmPin] = useState("");
   const [error, setError] = useState("");
-  const isSetup = typeof window !== "undefined" && !hasParentPin();
+  const [isSetup, setIsSetup] = useState(false);
+  const getStatus = useServerFn(getParentControlStatus);
+  const savePin = useServerFn(setParentPin);
+  const checkPin = useServerFn(verifyParentPinCloud);
+
+  const openParentGate = async () => {
+    const { data } = await supabase.auth.getUser();
+    if (!data.user) { navigate({ to: "/adult/sign-in" }); return; }
+    try { const status = await getStatus(); setIsSetup(!status.configured); setParentOpen(true); }
+    catch { navigate({ to: "/adult/sign-in" }); }
+  };
 
   const continueToParent = async () => {
     if (!/^\d{4}$/.test(pin)) return setError("Enter a 4-digit PIN.");
     if (isSetup) {
       if (pin !== confirmPin) return setError("The PINs do not match.");
-      await saveParentPin(pin);
-    } else if (!(await verifyParentPin(pin))) {
-      return setError("That PIN is not right. Try again or use recovery.");
+      try { await savePin({ data: { pin } }); } catch { return setError("We could not save that PIN. Please try again."); }
+    } else {
+      try { const result = await checkPin({ data: { pin } }); if (!result.valid) return setError("That PIN is not right. Try again or use recovery."); }
+      catch { return setError("We could not check the PIN. Please sign in again."); }
     }
     unlockParentMode();
     setParentOpen(false);
@@ -60,7 +74,7 @@ export function KidNav() {
               {(Object.keys(languageNames) as Array<keyof typeof languageNames>).map((code) => <DropdownMenuItem key={code} onSelect={() => setLanguage(code)}>{languageNames[code]}{language === code ? " ✓" : ""}</DropdownMenuItem>)}
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button variant="outline" size="sm" className="border-dream text-dream" onClick={() => { setPin(""); setConfirmPin(""); setError(""); setParentOpen(true); }}><Lock size={15} /><span className="hidden sm:inline">For Parents</span></Button>
+          <Button variant="outline" size="sm" className="border-dream text-dream" onClick={() => { setPin(""); setConfirmPin(""); setError(""); void openParentGate(); }}><Lock size={15} /><span className="hidden sm:inline">For Parents</span></Button>
         </div>
         <nav className="flex gap-2 overflow-x-auto px-4 pb-3 lg:hidden" aria-label="Child navigation">
           {tabs.map(({ to, label, icon: Icon }) => <Link key={to} to={to} className="flex shrink-0 items-center gap-1.5 rounded-full border-2 border-transparent px-3 py-1.5 text-xs font-bold text-ink-soft" activeProps={{ className: "border-language bg-language-soft !text-language" }}><Icon size={14} />{label}</Link>)}

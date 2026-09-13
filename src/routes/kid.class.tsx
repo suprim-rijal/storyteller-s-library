@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { CheckCircle2, GraduationCap, ShieldCheck } from "lucide-react";
 import { Badge, Button, Card } from "@/design-system/nepali-kids";
 import { KidNav } from "@/components/KidNav";
+import { joinClassroomByCode } from "@/lib/family.functions";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/kid/class")({
   head: () => ({ meta: [{ title: "My Classroom | RootBridge" }, { name: "description", content: "Join a teacher's moderated RootBridge classroom with a six-character code." }] }),
@@ -13,10 +16,16 @@ function KidClass() {
   const [code, setCode] = useState("");
   const [linked, setLinked] = useState("");
   const [error, setError] = useState("");
+  const joinCloud = useServerFn(joinClassroomByCode);
   useEffect(() => setLinked(localStorage.getItem("rootbridge-classroom") ?? ""), []);
-  const join = () => {
+  const join = async () => {
     const clean = code.trim().toUpperCase();
     if (!/^[A-Z0-9]{6}$/.test(clean)) return setError("Ask your teacher for a six-character code.");
+    const { data } = await supabase.auth.getUser();
+    if (data.user) {
+      try { const classroom = await joinCloud({ data: { code: clean } }); localStorage.setItem("rootbridge-classroom", classroom.code); setLinked(classroom.code); setError(""); return; }
+      catch { setError("We could not find that classroom. Check the code with your teacher."); return; }
+    }
     localStorage.setItem("rootbridge-classroom", clean); setLinked(clean); setError("");
   };
   return <div className="min-h-screen"><KidNav /><main className="mx-auto max-w-4xl px-4 py-10 lg:px-8">
