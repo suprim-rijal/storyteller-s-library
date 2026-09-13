@@ -12,7 +12,7 @@ export const Route = createFileRoute("/kid/home")({
       {
         name: "description",
         content:
-          "Your learning hub: the next lesson, language and culture progress, the Practice Garden and your weekly rhythm.",
+          "Your learning hub: the next lesson, Nepali language and culture progress, and your weekly rhythm.",
       },
       { property: "og:title", content: "Learning Course | RootBridge" },
       {
@@ -52,7 +52,7 @@ function KidHome() {
     nextModule.lessons[0]!;
   const days = lastSevenDays();
   const learnedDays = days.filter((d) => state.rhythmDays.includes(d)).length;
-  const due = state.reviewDue.length;
+  
 
   return (
     <div className="min-h-screen">
@@ -73,9 +73,7 @@ function KidHome() {
                 Ready to {nextLesson.title.toLowerCase()} today, {state.name}?
               </h1>
               <p className="mt-2 text-sm text-ink-soft">
-                {due > 0
-                  ? `Yaju is packing our bags. ${due} review seed${due === 1 ? "" : "s"} are waiting for warm mountain rain.`
-                  : "Yaju is packing our bags. Every seed is watered. A fresh lesson is the perfect next step."}
+                Yaju is packing our bags. A fresh lesson is the perfect next step.
               </p>
             </div>
           </Card>
