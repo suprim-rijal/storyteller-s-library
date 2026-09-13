@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 
-export type UiLanguage = "en" | "ne" | "hi";
+export type UiLanguage = "en" | "ne";
 const KEY = "rootbridge-language";
 
 export const languageNames: Record<UiLanguage, string> = {
   en: "English",
   ne: "नेपाली",
-  hi: "हिन्दी",
 };
 
 export function useUiLanguage() {

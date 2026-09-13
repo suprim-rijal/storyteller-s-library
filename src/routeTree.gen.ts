@@ -14,7 +14,6 @@ import { Route as KidWelcomeRouteImport } from './routes/kid.welcome'
 import { Route as KidTreasuresRouteImport } from './routes/kid.treasures'
 import { Route as KidTracksRouteImport } from './routes/kid.tracks'
 import { Route as KidReadyRouteImport } from './routes/kid.ready'
-import { Route as KidPracticeRouteImport } from './routes/kid.practice'
 import { Route as KidMeRouteImport } from './routes/kid.me'
 import { Route as KidHomeRouteImport } from './routes/kid.home'
 import { Route as KidClassRouteImport } from './routes/kid.class'
@@ -60,11 +59,6 @@ const KidTracksRoute = KidTracksRouteImport.update({
 const KidReadyRoute = KidReadyRouteImport.update({
   id: '/kid/ready',
   path: '/kid/ready',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const KidPracticeRoute = KidPracticeRouteImport.update({
-  id: '/kid/practice',
-  path: '/kid/practice',
   getParentRoute: () => rootRouteImport,
 } as any)
 const KidMeRoute = KidMeRouteImport.update({
@@ -185,7 +179,6 @@ export interface FileRoutesByFullPath {
   '/kid/class': typeof KidClassRoute
   '/kid/home': typeof KidHomeRoute
   '/kid/me': typeof KidMeRoute
-  '/kid/practice': typeof KidPracticeRoute
   '/kid/ready': typeof KidReadyRoute
   '/kid/tracks': typeof KidTracksRoute
   '/kid/treasures': typeof KidTreasuresRoute
@@ -214,7 +207,6 @@ export interface FileRoutesByTo {
   '/kid/class': typeof KidClassRoute
   '/kid/home': typeof KidHomeRoute
   '/kid/me': typeof KidMeRoute
-  '/kid/practice': typeof KidPracticeRoute
   '/kid/ready': typeof KidReadyRoute
   '/kid/tracks': typeof KidTracksRoute
   '/kid/treasures': typeof KidTreasuresRoute
@@ -244,7 +236,6 @@ export interface FileRoutesById {
   '/kid/class': typeof KidClassRoute
   '/kid/home': typeof KidHomeRoute
   '/kid/me': typeof KidMeRoute
-  '/kid/practice': typeof KidPracticeRoute
   '/kid/ready': typeof KidReadyRoute
   '/kid/tracks': typeof KidTracksRoute
   '/kid/treasures': typeof KidTreasuresRoute
@@ -275,7 +266,6 @@ export interface FileRouteTypes {
     | '/kid/class'
     | '/kid/home'
     | '/kid/me'
-    | '/kid/practice'
     | '/kid/ready'
     | '/kid/tracks'
     | '/kid/treasures'
@@ -304,7 +294,6 @@ export interface FileRouteTypes {
     | '/kid/class'
     | '/kid/home'
     | '/kid/me'
-    | '/kid/practice'
     | '/kid/ready'
     | '/kid/tracks'
     | '/kid/treasures'
@@ -333,7 +322,6 @@ export interface FileRouteTypes {
     | '/kid/class'
     | '/kid/home'
     | '/kid/me'
-    | '/kid/practice'
     | '/kid/ready'
     | '/kid/tracks'
     | '/kid/treasures'
@@ -363,7 +351,6 @@ export interface RootRouteChildren {
   KidClassRoute: typeof KidClassRoute
   KidHomeRoute: typeof KidHomeRoute
   KidMeRoute: typeof KidMeRoute
-  KidPracticeRoute: typeof KidPracticeRoute
   KidReadyRoute: typeof KidReadyRoute
   KidTracksRoute: typeof KidTracksRoute
   KidTreasuresRoute: typeof KidTreasuresRoute
@@ -416,13 +403,6 @@ declare module '@tanstack/react-router' {
       path: '/kid/ready'
       fullPath: '/kid/ready'
       preLoaderRoute: typeof KidReadyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/kid/practice': {
-      id: '/kid/practice'
-      path: '/kid/practice'
-      fullPath: '/kid/practice'
-      preLoaderRoute: typeof KidPracticeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/kid/me': {
@@ -599,7 +579,6 @@ const rootRouteChildren: RootRouteChildren = {
   KidClassRoute: KidClassRoute,
   KidHomeRoute: KidHomeRoute,
   KidMeRoute: KidMeRoute,
-  KidPracticeRoute: KidPracticeRoute,
   KidReadyRoute: KidReadyRoute,
   KidTracksRoute: KidTracksRoute,
   KidTreasuresRoute: KidTreasuresRoute,

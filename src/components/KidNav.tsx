@@ -12,7 +12,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 const tabs = [
   { to: "/kid/home", label: "Course", icon: BookOpen },
-  { to: "/kid/practice", label: "Practice Garden", icon: Sprout },
+  { to: "/kid/tracks", label: "Adventure Paths", icon: Sprout },
   { to: "/kid/class", label: "Class", icon: GraduationCap },
   { to: "/kid/treasures", label: "Achievements", icon: Award },
   { to: "/kid/me", label: "Me", icon: Smile },
