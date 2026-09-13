@@ -5,13 +5,13 @@ import yak from "@/assets/illustrations/yak-mascot.png";
 export const Route = createFileRoute("/kid/welcome")({
   head: () => ({
     meta: [
-      { title: "Welcome — Nepali Kids" },
+      { title: "Welcome. Nepali Kids" },
       {
         name: "description",
         content:
           "A short, calm welcome from the learning guide before choosing a name, guide and theme.",
       },
-      { property: "og:title", content: "Welcome — Nepali Kids" },
+      { property: "og:title", content: "Welcome. Nepali Kids" },
       { property: "og:description", content: "The child's first screen after signing in." },
     ],
   }),
@@ -34,7 +34,7 @@ function Welcome() {
           Namaste! I am Yaju, and I will climb with you.
         </h1>
         <p className="mt-3 text-ink-soft">
-          Here you will learn Nepali sounds and letters, and you will discover Nepal — its places,
+          Here you will learn Nepali sounds and letters, and you will discover Nepal. its places,
           people and celebrations. There are no lives, no timers and no leaderboards. You can try
           anything as many times as you like.
         </p>

@@ -6,13 +6,13 @@ import { Badge, Button, Card } from "@/design-system/nepali-kids";
 export const Route = createFileRoute("/adult/consent")({
   head: () => ({
     meta: [
-      { title: "Grown-up setup and consent — Nepali Kids" },
+      { title: "Grown-up setup and consent. Nepali Kids" },
       {
         name: "description",
         content:
           "Guardians choose microphone, voice recording, class join and reminder settings. Everything is off until chosen.",
       },
-      { property: "og:title", content: "Grown-up setup and consent — Nepali Kids" },
+      { property: "og:title", content: "Grown-up setup and consent. Nepali Kids" },
       {
         property: "og:description",
         content: "Explicit, revocable consent for microphone, recording, class and reminders.",
@@ -41,7 +41,7 @@ const items = [
   {
     id: "reminders",
     title: "Gentle reminders",
-    body: "At most one a day, sent to you — never streak-shaming the child.",
+    body: "At most one a day, sent to you. never streak-shaming the child.",
   },
 ];
 

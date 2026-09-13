@@ -6,12 +6,12 @@ import yak from "@/assets/illustrations/yak-mascot.png";
 export const Route = createFileRoute("/kid/setup/guide")({
   head: () => ({
     meta: [
-      { title: "Choose your guide — Nepali Kids" },
+      { title: "Choose your guide. Nepali Kids" },
       {
         name: "description",
         content: "Pick a friendly learning companion from a safe, pre-defined list of guides.",
       },
-      { property: "og:title", content: "Choose your guide — Nepali Kids" },
+      { property: "og:title", content: "Choose your guide. Nepali Kids" },
       { property: "og:description", content: "Avatar and guide selection during child setup." },
     ],
   }),

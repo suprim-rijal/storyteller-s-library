@@ -8,13 +8,13 @@ import { useProgress } from "@/lib/progress";
 export const Route = createFileRoute("/kid/treasures")({
   head: () => ({
     meta: [
-      { title: "Achievements & Badges — RootBridge" },
+      { title: "Achievements & Badges. RootBridge" },
       {
         name: "description",
         content:
           "Every badge, story card and decoration you have earned. Nothing is random, nothing expires.",
       },
-      { property: "og:title", content: "Treasures — Nepali Kids" },
+      { property: "og:title", content: "Treasures. Nepali Kids" },
       { property: "og:description", content: "The child's collection of earned rewards." },
     ],
   }),

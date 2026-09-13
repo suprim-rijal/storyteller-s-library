@@ -11,7 +11,7 @@ export const Route = createFileRoute("/kid/chapter/$chapterId")({
     const title = chapter ? `${chapter.code}: ${chapter.title}` : "Chapter";
     return {
       meta: [
-        { title: `${title} — Nepali Kids` },
+        { title: `${title}. Nepali Kids` },
         {
           name: "description",
           content:
@@ -114,7 +114,7 @@ function ChapterDetail() {
                     {v.np}
                   </span>
                   <span className="ml-2 text-ink-soft">
-                    {v.rom} — {v.en}
+                    {v.rom}. {v.en}
                   </span>
                 </li>
               ))}
@@ -128,7 +128,7 @@ function ChapterDetail() {
             <p className="mt-3 text-sm text-ink-soft">
               A chapter checkpoint is a 12–20 minute story mission that combines the modules
               above. A child passes at 75% with no critical misconception; the final quests
-              need 80%. Results are shown as dimensions and examples — never a single grade.
+              need 80%. Results are shown as dimensions and examples. never a single grade.
             </p>
             <p className="mt-3 text-sm text-ink-soft">
               Every lesson has an accessible transcript, and audio can be slowed at any time.

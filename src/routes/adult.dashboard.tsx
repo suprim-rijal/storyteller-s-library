@@ -9,13 +9,13 @@ import selRoti from "@/assets/illustrations/sel-roti.jpg";
 export const Route = createFileRoute("/adult/dashboard")({
   head: () => ({
     meta: [
-      { title: "Parent Portal — Nepali Kids" },
+      { title: "Parent Portal. Nepali Kids" },
       {
         name: "description",
         content:
           "Calm progress overview for parents: learning days, play time and CEFR-informed development milestones.",
       },
-      { property: "og:title", content: "Parent Portal — Nepali Kids" },
+      { property: "og:title", content: "Parent Portal. Nepali Kids" },
       {
         property: "og:description",
         content: "Stress-free development and milestones, with no ranking.",

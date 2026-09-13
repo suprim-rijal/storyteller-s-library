@@ -6,13 +6,13 @@ import { useProgress } from "@/lib/progress";
 export const Route = createFileRoute("/kid/setup/name")({
   head: () => ({
     meta: [
-      { title: "Your name and age band — Nepali Kids" },
+      { title: "Your name and age band. Nepali Kids" },
       {
         name: "description",
         content:
           "Choose a display name and an age band that sets session length, reading load and tap-target size.",
       },
-      { property: "og:title", content: "Your name and age band — Nepali Kids" },
+      { property: "og:title", content: "Your name and age band. Nepali Kids" },
       { property: "og:description", content: "Child profile setup step two." },
     ],
   }),

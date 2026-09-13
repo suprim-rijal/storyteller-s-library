@@ -7,7 +7,7 @@ import mountains from "@/assets/illustrations/mountain-trail-bg.jpg";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Nepali Kids — Learn Nepali language and culture, gently" },
+      { title: "Nepali Kids. Learn Nepali language and culture, gently" },
       {
         name: "description",
         content:
@@ -45,7 +45,7 @@ function Landing() {
               one gentle step at a time.
             </h1>
             <p className="mt-5 max-w-xl text-lg text-ink-soft">
-              Two parallel paths — नेपाली भाषा for language and नेपाल चिनौँ for
+              Two parallel paths. नेपाली भाषा for language and नेपाल चिनौँ for
               culture. No hearts, no timers, no leaderboards. Children may retry
               as often as they like.
             </p>
@@ -85,7 +85,7 @@ function Landing() {
           {
             icon: Mountain,
             title: "Culture, kept separate",
-            body: "Festivals, temples and traditions live on their own non-hierarchical track — never blurred with grammar.",
+            body: "Festivals, temples and traditions live on their own non-hierarchical track. never blurred with grammar.",
           },
           {
             icon: Sparkles,

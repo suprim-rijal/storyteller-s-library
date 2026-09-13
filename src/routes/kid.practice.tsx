@@ -9,13 +9,13 @@ import gardenBg from "@/assets/illustrations/garden-bg.jpg";
 export const Route = createFileRoute("/kid/practice")({
   head: () => ({
     meta: [
-      { title: "Practice Garden — Nepali Kids" },
+      { title: "Practice Garden. Nepali Kids" },
       {
         name: "description",
         content:
           "A stress-free spaced-review space: review seeds, pronunciation studio, tracing and songs. Overdue items are never late.",
       },
-      { property: "og:title", content: "Practice Garden — Nepali Kids" },
+      { property: "og:title", content: "Practice Garden. Nepali Kids" },
       {
         property: "og:description",
         content: "Water your skill-seeds and blossom your Nepali vocabulary.",
@@ -118,7 +118,7 @@ function Practice() {
             <h2 className="font-display text-lg font-extrabold">How seeds come back</h2>
             <p className="mt-2 text-sm text-ink-soft">
               A word you meet returns after {reviewIntervals.join(", ")} days. If it is late, it
-              just says “ready to grow” — nothing wilts, nothing is lost, and there is no streak to
+              just says “ready to grow”. nothing wilts, nothing is lost, and there is no streak to
               break.
             </p>
           </Card>
