@@ -14,16 +14,228 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      classroom_memberships: {
+        Row: {
+          classroom_id: string
+          id: string
+          joined_at: string
+          learner_user_id: string
+          parent_email: string | null
+        }
+        Insert: {
+          classroom_id: string
+          id?: string
+          joined_at?: string
+          learner_user_id: string
+          parent_email?: string | null
+        }
+        Update: {
+          classroom_id?: string
+          id?: string
+          joined_at?: string
+          learner_user_id?: string
+          parent_email?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "classroom_memberships_classroom_id_fkey"
+            columns: ["classroom_id"]
+            isOneToOne: false
+            referencedRelation: "classrooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      classrooms: {
+        Row: {
+          active: boolean
+          created_at: string
+          id: string
+          join_code: string
+          name: string
+          teacher_user_id: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          join_code: string
+          name: string
+          teacher_user_id: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          join_code?: string
+          name?: string
+          teacher_user_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      learner_progress: {
+        Row: {
+          active_module_id: string | null
+          activity_history: Json
+          avatar_id: string
+          badges: Json
+          completed_lessons: Json
+          created_at: string
+          id: string
+          learner_name: string
+          mastered_modules: Json
+          performance: Json
+          review_due: Json
+          ui_language: string
+          updated_at: string
+          user_id: string
+          xp: number
+        }
+        Insert: {
+          active_module_id?: string | null
+          activity_history?: Json
+          avatar_id?: string
+          badges?: Json
+          completed_lessons?: Json
+          created_at?: string
+          id?: string
+          learner_name?: string
+          mastered_modules?: Json
+          performance?: Json
+          review_due?: Json
+          ui_language?: string
+          updated_at?: string
+          user_id: string
+          xp?: number
+        }
+        Update: {
+          active_module_id?: string | null
+          activity_history?: Json
+          avatar_id?: string
+          badges?: Json
+          completed_lessons?: Json
+          created_at?: string
+          id?: string
+          learner_name?: string
+          mastered_modules?: Json
+          performance?: Json
+          review_due?: Json
+          ui_language?: string
+          updated_at?: string
+          user_id?: string
+          xp?: number
+        }
+        Relationships: []
+      }
+      parent_controls: {
+        Row: {
+          created_at: string
+          id: string
+          pin_hash: string
+          recovery_email: string
+          reset_requested_at: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          pin_hash: string
+          recovery_email: string
+          reset_requested_at?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          pin_hash?: string
+          recovery_email?: string
+          reset_requested_at?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          account_type: Database["public"]["Enums"]["app_role"]
+          created_at: string
+          display_name: string
+          id: string
+          learner_avatar: string
+          parent_email: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          account_type?: Database["public"]["Enums"]["app_role"]
+          created_at?: string
+          display_name?: string
+          id?: string
+          learner_avatar?: string
+          parent_email?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          account_type?: Database["public"]["Enums"]["app_role"]
+          created_at?: string
+          display_name?: string
+          id?: string
+          learner_avatar?: string
+          parent_email?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      join_classroom: {
+        Args: { _join_code: string; _parent_email?: string }
+        Returns: {
+          classroom_id: string
+          classroom_name: string
+        }[]
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "parent" | "teacher" | "learner"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +362,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["parent", "teacher", "learner"],
+    },
   },
 } as const
