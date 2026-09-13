@@ -62,13 +62,13 @@ function Quest() {
           <Card accent="grow" bold className="bg-grow-soft p-6">
             <Badge tone="grow">Quest complete</Badge>
             <h1 className="mt-2 font-display text-3xl font-extrabold">
-              You showed {done.flowers} of {exercises.length} skills today, {state.name}.
+            You showed {done.flowers} of {exercises.length} skills today, {state.name}.
             </h1>
             <p className="mt-2 text-ink-soft">
               Mastered now: {mod.skills.slice(0, 2).join(", ")}. Growing next:{" "}
               {mod.skills.slice(2).join(", ") || "keep using these in stories"}.
               {done.hintsUsed > 0
-                ? " You used hints — that is how learning works, and nothing was taken away."
+                ? " You used hints. That is how learning works, and nothing was taken away."
                 : ""}
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
@@ -96,7 +96,7 @@ function Quest() {
               accent={track.id}
               quiet
               romanization={state.romanization}
-          reducedMotion={state.reducedMotion}
+              reducedMotion={state.reducedMotion}
               onFinish={setDone}
             />
           </>
